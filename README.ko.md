@@ -6,6 +6,26 @@
 
 영문 안내는 [README.md](README.md)에서 볼 수 있습니다.
 
+## skills.sh로 설치하기
+
+```bash
+npx skills add parkjangwon/make-harness
+```
+
+특정 에이전트에만 설치하려면:
+
+```bash
+npx skills add parkjangwon/make-harness -a claude-code
+npx skills add parkjangwon/make-harness -a codex
+npx skills add parkjangwon/make-harness -a gemini-cli
+```
+
+설치 전에 이 저장소가 노출하는 스킬을 먼저 확인하려면:
+
+```bash
+npx skills add parkjangwon/make-harness --list
+```
+
 이 스킬이 관리하는 파일은 아래 다섯 개입니다.
 
 - `AGENTS.md`

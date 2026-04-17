@@ -16,3 +16,4 @@ They are reference outputs that make the contract shape easier to understand.
 
 - `legacy-webapp-healthy.md`: a representative healthy harness for a legacy web application
 - `legacy-webapp-before-after.md`: a compact before/after showing why the harness structure matters
+- `social-preview.png`: a ready-to-upload GitHub social preview image for this repository

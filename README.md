@@ -6,6 +6,26 @@ It does not replace a strong agent framework. It fixes project-local operating r
 
 Korean version: [README.ko.md](README.ko.md)
 
+## Install with skills.sh
+
+```bash
+npx skills add parkjangwon/make-harness
+```
+
+Install to a specific agent:
+
+```bash
+npx skills add parkjangwon/make-harness -a claude-code
+npx skills add parkjangwon/make-harness -a codex
+npx skills add parkjangwon/make-harness -a gemini-cli
+```
+
+List what the repository exposes before installing:
+
+```bash
+npx skills add parkjangwon/make-harness --list
+```
+
 Managed files:
 
 - `AGENTS.md`
