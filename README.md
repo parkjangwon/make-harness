@@ -1,5 +1,7 @@
 # make-harness
 
+<img width="1000" height="550" alt="make-harness" src="https://github.com/user-attachments/assets/e68f3bdd-d549-4158-9f17-5a3111f3c850" />
+
 `make-harness` bootstraps and maintains a repository-local AI harness.
 
 It does not replace a strong agent framework. It fixes project-local operating rules and guardrails into local files.
