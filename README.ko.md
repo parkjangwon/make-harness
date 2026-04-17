@@ -1,5 +1,7 @@
 # make-harness
 
+<img width="1000" height="550" alt="make-harness" src="https://github.com/user-attachments/assets/e68f3bdd-d549-4158-9f17-5a3111f3c850" />
+
 `make-harness`는 저장소 안에서 오래 유지할 AI 작업 규칙을 정리해주는 로컬 하네스 스킬입니다.
 
 이 스킬은 강한 에이전트 프레임워크를 대체하려는 도구가 아닙니다. 대신 프로젝트마다 달라지는 운영 계약과 실행 가드레일을 로컬 파일에 차분하게 고정해서, 매번 같은 설명을 반복하지 않도록 돕습니다.
