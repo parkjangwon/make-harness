@@ -1,0 +1,25 @@
+{
+  "name": "bootstrap-empty",
+  "purpose": "Empty repository without harness files should start in bootstrap mode and begin the interview from communication language.",
+  "initial_conditions": {
+    "managed_files_present": [],
+    "canonical_sources_present": [],
+    "entry_files_present": [],
+    "notes": [
+      "No local harness exists yet."
+    ]
+  },
+  "expected": {
+    "run_mode": "bootstrap",
+    "bootstrap_status": "pending_interview",
+    "interview_step": "communication_language",
+    "sync_status": "unvalidated",
+    "entry_files_sync_status": "unvalidated",
+    "drift_reasons": [],
+    "checks": [
+      "The first interview question should be about collaboration language.",
+      "The shared contract fields should remain fully pending.",
+      "The run should not be treated as configured."
+    ]
+  }
+}

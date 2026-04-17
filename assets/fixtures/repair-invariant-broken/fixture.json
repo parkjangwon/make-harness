@@ -1,0 +1,36 @@
+{
+  "name": "repair-invariant-broken",
+  "purpose": "Broken state invariants should force repair even if all managed files exist.",
+  "initial_conditions": {
+    "managed_files_present": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md",
+      "PROJECT_HARNESS.md",
+      "harness-state.json"
+    ],
+    "bootstrap_status": "configured",
+    "pending_fields": [
+      "approval_policy"
+    ],
+    "confirmed_fields": [
+      "approval_policy"
+    ],
+    "canonical_sources_aligned": true,
+    "entry_files_aligned": true,
+    "entry_files_thin": true
+  },
+  "expected": {
+    "run_mode": "repair",
+    "sync_status": "drifted",
+    "entry_files_sync_status": "healthy",
+    "drift_reasons": [
+      "state_invariant_broken"
+    ],
+    "checks": [
+      "Configured state must not keep any field in both pending and confirmed.",
+      "Repair should normalize state before the harness can return to healthy.",
+      "A configured harness must end with interview_step set to complete."
+    ]
+  }
+}

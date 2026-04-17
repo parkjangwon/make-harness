@@ -1,0 +1,30 @@
+{
+  "name": "refresh-configured-healthy",
+  "purpose": "A fully configured harness with aligned canonical and entry files should be treated as refresh.",
+  "initial_conditions": {
+    "managed_files_present": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md",
+      "PROJECT_HARNESS.md",
+      "harness-state.json"
+    ],
+    "bootstrap_status": "configured",
+    "pending_fields": [],
+    "entry_files_aligned": true,
+    "canonical_sources_aligned": true,
+    "entry_files_thin": true
+  },
+  "expected": {
+    "run_mode": "refresh",
+    "bootstrap_status": "configured",
+    "sync_status": "healthy",
+    "entry_files_sync_status": "healthy",
+    "drift_reasons": [],
+    "checks": [
+      "No repair should be required.",
+      "Validated shared fields should match the fixed shared contract schema.",
+      "The entry files should continue to point back to the same project harness."
+    ]
+  }
+}
