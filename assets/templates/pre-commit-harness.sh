@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-mode="${HERMES_HOOK_MODE:-strict}"
+mode="${MAKE_HARNESS_HOOK_MODE:-strict}"
 
 # Summary line shapes emitted by this hook:
 # [make-harness] audit: pass
@@ -24,7 +24,7 @@ run_or_handle() {
   fi
 
   if [[ "$mode" == "warn" ]]; then
-    echo "[make-harness] ${label}: warn (continuing because HERMES_HOOK_MODE=warn)"
+    echo "[make-harness] ${label}: warn (continuing because MAKE_HARNESS_HOOK_MODE=warn)"
     return 0
   fi
 
@@ -47,7 +47,7 @@ if python3 "$repo_root/tools/check-sensitive-change.py" "$repo_root" --paths "${
 fi
 
 if [[ "$mode" == "warn" ]]; then
-  echo "[make-harness] sensitive-change: warn (continuing because HERMES_HOOK_MODE=warn)"
+  echo "[make-harness] sensitive-change: warn (continuing because MAKE_HARNESS_HOOK_MODE=warn)"
   exit 0
 fi
 

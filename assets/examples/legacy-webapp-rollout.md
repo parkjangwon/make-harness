@@ -1,15 +1,15 @@
 # Legacy Web App Rollout Example
 
-This example shows how `make-harness` should feel when applied to an existing repository without pretending to be a heavy execution framework.
+This example is intentionally concrete: a team had drift across `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md`, kept repeating the same setup rules in chat, and wanted one local source of truth without adopting a bigger agent runtime.
 
-## Starting point
+## Before
 
 Repository symptoms:
 
-- `AGENTS.md` and `CLAUDE.md` drifted apart
+- `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` drifted apart
 - project rules were being restated manually in chat
 - legacy constraints existed but were scattered across old docs and tribal knowledge
-- the team did not want to adopt a bigger agent framework just to record those defaults
+- reviewers were not sure which root file actually represented the current default
 
 ## What make-harness adds
 
@@ -23,6 +23,8 @@ Repository symptoms:
    - one volatile runtime state file
 
 ## Example outcome
+
+### After
 
 Durable defaults captured once:
 

@@ -2,13 +2,33 @@
 
 <img width="1000" height="550" alt="make-harness" src="https://github.com/user-attachments/assets/e68f3bdd-d549-4158-9f17-5a3111f3c850" />
 
-`make-harness`는 저장소 안에서 오래 유지할 AI 작업 계약을 정리해주는 로컬 하네스 스킬입니다.
+`make-harness`는 `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`가 서로 drift 나는 문제를 줄이기 위한 로컬 하네스 스킬이다.
 
-강한 에이전트 프레임워크를 대체하려는 도구는 아닙니다. 대신 프로젝트마다 달라지는 영속 계약과 실행 가드레일을 로컬 파일에 고정하고, 인터뷰/동기화 같은 런타임 상태는 별도 파일로 분리해 둡니다.
+리포마다 durable contract 하나를 두고, 그 계약에서 thin projection 파일을 다시 만들고, 실제로 healthy 상태인지까지 점검한다.
 
-영문 안내는 [README.md](README.md)에서 볼 수 있습니다.
+영문 버전: [README.md](README.md)
 
-## skills.sh로 설치하기
+## 왜 설치하나
+
+`make-harness`를 쓰기 전 흔한 고통:
+
+### Before
+
+- `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`가 조금씩 달라진다
+- 새 AI 세션마다 같은 프로젝트 규칙을 다시 설명한다
+- 어느 파일이 진짜 기준인지 애매해진다
+- 위험한 변경 기준이 문서보다 사람 기억에 의존한다
+
+### After
+
+- durable contract 하나가 기준이 된다
+- thin entry 파일은 손으로 맞추는 대신 다시 생성한다
+- audit / completion check가 하네스가 실제로 healthy한지 말해준다
+- 더 큰 에이전트 런타임을 들이지 않고도 repo-local 기본값이 세션을 넘어 유지된다
+
+처음 체감되는 효용은 단순하다. 같은 설명을 덜 반복하고, drift 난 루트 파일이 줄어든다.
+
+## Install with skills.sh
 
 ```bash
 npx skills add parkjangwon/make-harness
@@ -73,7 +93,7 @@ make-harness/
 - durable 계약에는 오래 유지할 기본값과 가드레일만 넣는다
 - drift는 보여야 하고 repair 가능해야 한다
 - 더 강한 프레임워크와 전문 스킬 옆에서 조용히 공존해야 한다
-- 프로젝트 로컬 보안 가드레일은 계약에 넣되, 전체 AppSec 프레임워크까지 떠안지는 않는다
+- 프로젝트 로컬 보안 가드레일은 계약에 넣고, 리포에는 lightweight path-based guardrail smoke check만 둔다
 
 ## 공유 계약 필드
 
@@ -176,7 +196,7 @@ python tools/check-harness-done.py /path/to/project
 
 이 게이트는 audit 성공, `configured` + `healthy` 상태, 전체 `validated_shared_fields`, 그리고 현재 projection이 deterministic generator 출력과 완전히 일치하는지를 요구한다.
 
-## diff-sensitive guardrail gate
+## lightweight path-based guardrail smoke check
 
 다음 명령으로 auth / 권한 / secret / 결제 / 암호화 / public API 영역을 건드리는 변경을 감지할 수 있다:
 
@@ -192,12 +212,14 @@ python tools/check-sensitive-change.py /path/to/project --base HEAD~1 --head HEA
 
 관련 `rule_strengths`가 `enforced`면 민감한 변경은 완료/CI/hook 단계에서 차단된다. `guided`면 카테고리를 보고만 하고 막지는 않는다.
 
+이 checker는 의도적으로 가볍다. 현재는 깊은 코드 분석기가 아니라 path-based smoke check다.
+
 ## hooks and CI
 
 - CI는 이제 `audit-harness`, `check-harness-done`, diff-sensitive smoke check를 함께 실행한다.
 - 샘플 git hook은 `assets/templates/pre-commit-harness.sh`에 있다.
 - hook은 `HEAD~1..HEAD` 가정 대신 `git diff --cached --name-only --diff-filter=ACMR` 기준으로 staged file만 검사한다.
-- `HERMES_HOOK_MODE`는 `strict`(기본), `warn`, `off`를 지원한다.
+- `MAKE_HARNESS_HOOK_MODE`는 `strict`(기본), `warn`, `off`를 지원한다.
 - hook은 `audit: pass`, `done-gate: pass`, `sensitive-change: pass` 같은 짧은 요약을 출력해서 실패 이유를 더 읽기 쉽게 만든다.
 
 성공 예시:

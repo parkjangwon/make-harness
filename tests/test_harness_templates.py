@@ -192,13 +192,26 @@ def test_docs_reference_hook_template_and_sensitive_change_gate():
     assert "check-sensitive-change.py" in skill
     assert hook.exists()
     assert "git diff --cached --name-only" in hook_text
-    assert "HERMES_HOOK_MODE" in hook_text
+    assert "MAKE_HARNESS_HOOK_MODE" in hook_text
+    assert "HERMES_HOOK_MODE" not in hook_text
     assert "strict" in hook_text
     assert "warn" in hook_text
     assert "off" in hook_text
     assert "audit: pass" in hook_text
     assert "done-gate: pass" in hook_text
     assert "sensitive-change: pass" in hook_text
+
+
+def test_readme_leads_with_painkiller_before_architecture():
+    readme = (ROOT / "README.md").read_text()
+
+    assert "## Why teams install this" in readme
+    assert "AGENTS.md" in readme
+    assert "CLAUDE.md" in readme
+    assert "GEMINI.md" in readme
+    assert "Before" in readme
+    assert "After" in readme
+    assert readme.index("## Why teams install this") < readme.index("## Structure")
 
 
 def test_ci_workflow_exists_and_runs_core_checks():
@@ -236,6 +249,17 @@ def test_examples_readme_mentions_rollout_and_mock_interview_examples():
     assert "legacy-webapp-rollout.md" in examples_readme
     assert "mock-interview-junior-developer.md" in examples_readme
     assert "mock-interview-senior-developer.md" in examples_readme
+
+
+def test_rollout_example_has_concrete_before_after_painkiller_story():
+    rollout = (ROOT / "assets" / "examples" / "legacy-webapp-rollout.md").read_text()
+
+    assert "Before" in rollout
+    assert "After" in rollout
+    assert "AGENTS.md" in rollout
+    assert "CLAUDE.md" in rollout
+    assert "GEMINI.md" in rollout
+    assert "repeated setup chatter" in rollout
 
 
 def test_shared_contract_schema_stays_in_sync_across_validator_and_templates():

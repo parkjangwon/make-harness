@@ -2,11 +2,31 @@
 
 <img width="1000" height="550" alt="make-harness" src="https://github.com/user-attachments/assets/e68f3bdd-d549-4158-9f17-5a3111f3c850" />
 
-`make-harness` bootstraps and maintains a repository-local AI harness.
+`make-harness` stops root-level agent instructions from drifting across `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md`.
 
-It does not replace a strong agent framework. It fixes durable project-local rules and guardrails into local files, while keeping volatile interview and sync state separate.
+It gives a repository one durable contract, regenerates thin projection files from that contract, and checks that the harness is still healthy before you trust it.
 
 Korean version: [README.ko.md](README.ko.md)
+
+## Why teams install this
+
+Typical pain before `make-harness`:
+
+### Before
+
+- `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` slowly diverge
+- the same project rules get re-explained in every new AI session
+- nobody is sure which file is authoritative anymore
+- risky changes depend on tribal knowledge instead of an explicit local contract
+
+### After
+
+- one durable contract becomes the source of truth
+- thin entry files are regenerated instead of hand-maintained
+- audit and completion checks tell you whether the harness is actually healthy
+- repo-specific defaults survive across sessions without adopting a bigger agent runtime
+
+In practice, the first win is simple: less repeated setup chatter and fewer drifted root files.
 
 ## Install with skills.sh
 
@@ -73,7 +93,7 @@ make-harness/
 - only durable defaults and guardrails belong in the durable contract
 - drift should be visible and repairable
 - this skill should stay easy to compose with stronger frameworks and specialist skills
-- project-local security guardrails belong in the contract, but this is not a full AppSec framework
+- project-local security guardrails belong in the contract, and the repo ships only a lightweight path-based guardrail smoke check
 
 ## Shared contract fields
 
@@ -180,7 +200,7 @@ python tools/check-harness-done.py /path/to/project
 
 This gate requires audit success, `configured` + `healthy` runtime state, full `validated_shared_fields`, and zero drift between the checked-in projections and deterministic generator output.
 
-## diff-sensitive guardrail gate
+## lightweight path-based guardrail smoke check
 
 Run to detect whether a diff touches auth / permissions / secrets / payments / encryption / public API areas:
 
@@ -196,12 +216,14 @@ python tools/check-sensitive-change.py /path/to/project --base HEAD~1 --head HEA
 
 If the relevant `rule_strengths` are `enforced`, sensitive changes block completion and hooks/CI can fail. If they are only `guided`, the checker reports the category but does not block.
 
+This checker is intentionally lightweight. Today it is a path-based smoke check, not a deep code-aware security engine.
+
 ## hooks and CI
 
 - CI now runs `audit-harness`, `check-harness-done`, and a diff-sensitive smoke check.
 - A sample git hook is provided at `assets/templates/pre-commit-harness.sh`.
 - The hook now checks staged files with `git diff --cached --name-only --diff-filter=ACMR` instead of assuming `HEAD~1..HEAD`.
-- `HERMES_HOOK_MODE` supports `strict` (default), `warn`, and `off`.
+- `MAKE_HARNESS_HOOK_MODE` supports `strict` (default), `warn`, and `off`.
 - The hook prints short summaries like `audit: pass`, `done-gate: pass`, and `sensitive-change: pass` so failures are easier to understand.
 
 Example success output:

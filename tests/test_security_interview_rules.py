@@ -32,6 +32,6 @@ def test_readme_and_healthy_checklist_explain_security_as_guardrails_not_full_ap
 
     assert "security-sensitive areas" in readme
     assert "project-local security guardrails" in readme
-    assert "not a full AppSec framework" in readme
+    assert "lightweight path-based guardrail smoke check" in readme
     assert "configuration-based TLS exception" in readme
     assert "security-sensitive rules" in checklist
