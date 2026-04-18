@@ -15,7 +15,7 @@ Thanks for contributing.
 Examples of strong contributions:
 
 - clearer durable/volatile contract boundaries
-- stronger fixture coverage for bootstrap / refresh / repair
+- stronger fixture coverage for bootstrap / update / repair
 - better local audit or validation logic
 - smaller, clearer templates
 - improved examples that show contract-layer behavior

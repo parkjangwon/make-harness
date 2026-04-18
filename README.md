@@ -89,7 +89,7 @@ make-harness/
 ## Modes
 
 - `bootstrap`: no harness yet
-- `refresh`: harness is healthy
+- `update`: healthy harness -> update from the same `/make-harness` command
 - `repair`: missing files, contract drift, or invariant failure
 
 ## Interview
@@ -200,5 +200,5 @@ Do not use it when:
 ```
 
 ```text
-Use the make-harness skill to set up or repair a durable local project contract for this repository.
+Use the single-entry `/make-harness` skill to bootstrap when no harness exists, update when a healthy harness already exists, or repair drift before continuing.
 ```

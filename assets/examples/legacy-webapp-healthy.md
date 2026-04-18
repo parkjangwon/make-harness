@@ -38,7 +38,7 @@ Read `harness-runtime.json` only for current interview/runtime state.
 
 ```json
 {
-  "run_mode": "refresh",
+  "run_mode": "update",
   "bootstrap_status": "configured",
   "interview_step": "complete",
   "sync_status": "healthy",

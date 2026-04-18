@@ -42,7 +42,7 @@ EXPECTED_VOLATILE_FIELDS = [
     "last_validated_at",
     "language_detection",
 ]
-VALID_RUN_MODES = {"bootstrap", "refresh", "repair"}
+VALID_RUN_MODES = {"bootstrap", "update", "repair"}
 VALID_BOOTSTRAP_STATUSES = {"pending_interview", "interview_in_progress", "configured"}
 VALID_SYNC_STATUSES = {"healthy", "drifted", "unvalidated", "unknown"}
 VALID_LANGUAGE_CONFIDENCE = {"low", "medium", "high"}

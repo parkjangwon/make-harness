@@ -1,17 +1,17 @@
 ---
 name: make-harness
-description: Use when the user wants to set up, install, audit, refresh, repair, or sync a project-local AI harness for the current repository. Inspect the repo, run a short interview for durable defaults and execution guardrails, then create or update synchronized AGENTS.md, CLAUDE.md, GEMINI.md, PROJECT_HARNESS.md, harness-contract.json, and harness-runtime.json files.
+description: Use when the user wants to set up, install, audit, update, repair, or sync a project-local AI harness for the current repository. Inspect the repo, run a short interview for durable defaults and execution guardrails, then create or update synchronized AGENTS.md, CLAUDE.md, GEMINI.md, PROJECT_HARNESS.md, harness-contract.json, and harness-runtime.json files.
 ---
 
 # make-harness
 
-Use this skill when the user wants to set up, audit, refresh, or repair a project-local harness in the current repository.
+Use this skill when the user wants to set up, audit, update, or repair a project-local harness in the current repository.
 
 This skill is the bootstrapper and maintenance entrypoint. The actual project contract must live in the target project's local files, not in the skill itself.
 
 ## What this skill manages
 
-Create, refresh, or repair these project-local files:
+Create, update, or repair these project-local files:
 
 - `AGENTS.md`
 - `CLAUDE.md`
@@ -25,7 +25,7 @@ Template sources live in [assets/templates](assets/templates).
 ## Core behavior
 
 1. Inspect the current repository and any existing harness files first.
-2. Classify the run as `bootstrap`, `refresh`, or `repair` before editing files.
+2. Treat `/make-harness` as a single entry command: `bootstrap` when no harness exists, `update` when a healthy harness already exists, and `repair` when drift or breakage is detected.
 3. Keep the durable project contract in `PROJECT_HARNESS.md` and `harness-contract.json`.
 4. Keep interview progress, sync metadata, and language-detection hints in `harness-runtime.json` only.
 5. If the harness is incomplete or missing durable defaults, start a short interview before treating any defaults as final.
@@ -43,10 +43,9 @@ Template sources live in [assets/templates](assets/templates).
 
 Read `harness-contract.json` and `harness-runtime.json` if they exist.
 
-- If all harness files are missing, treat the run as `bootstrap`.
-- If the harness exists and the durable contract is still valid, treat the run as `refresh`.
-- If one or more managed files are missing, stale, or inconsistent with the current contract, treat the run as `repair`.
-- If the entry files diverge from each other on core contract points, treat the run as `repair` even when all files exist.
+- If no harness exists, bootstrap it.
+- If the harness exists and is healthy, enter update mode.
+- If the harness exists but is drifted or broken, repair first and only continue with update if needed.
 - If `bootstrap_status` is `pending_interview`, the harness is not configured yet.
 - If `bootstrap_status` is `interview_in_progress`, resume from recorded runtime state.
 
@@ -80,7 +79,7 @@ Read `harness-contract.json` and `harness-runtime.json` if they exist.
 
 ## Output files
 
-After bootstrap, refresh, or repair, the target project should have:
+After bootstrap, update, or repair, the target project should have:
 
 - a thin `AGENTS.md`
 - a thin `CLAUDE.md`

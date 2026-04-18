@@ -89,7 +89,7 @@ make-harness/
 ## 동작 모드
 
 - `bootstrap`: 하네스가 아직 없음
-- `refresh`: 하네스가 healthy 상태임
+- `update`: healthy 하네스면 같은 `/make-harness` 명령에서 보강/수정 모드로 들어감
 - `repair`: 파일 누락, 계약 drift, invariant 파손이 있음
 
 ## 인터뷰
@@ -196,5 +196,5 @@ missing managed files: ['harness-contract.json', 'harness-runtime.json']
 ```
 
 ```text
-Use the make-harness skill to set up or repair a durable local project contract for this repository.
+하네스가 없으면 bootstrap, 이미 healthy하면 update, 깨져 있으면 repair 후 이어서 진행하는 단일 엔트리 `/make-harness` 명령입니다.
 ```

@@ -13,7 +13,7 @@ Current fixture coverage includes:
 - detect-first language bootstrap
 - conflicting-signals bootstrap
 - interrupted interview resume
-- healthy refresh
+- healthy update
 - entry-file drift repair
 - missing managed file repair
 - broken runtime invariant repair

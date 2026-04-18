@@ -35,6 +35,7 @@ def test_interview_heavy_fixtures_record_expected_planner_behavior():
     assert detect["expected"]["interview_mode"] == "repo_first_gap_fill"
     assert detect["expected"]["next_question_style"] == "confirmation"
 
+    assert resume["expected"]["run_mode"] == "update"
     assert resume["expected"]["next_question_field"] == "approval_policy"
     assert resume["expected"]["next_question_style"] == "open"
 

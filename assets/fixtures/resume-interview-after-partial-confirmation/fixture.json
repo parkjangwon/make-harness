@@ -37,7 +37,7 @@
     ]
   },
   "expected": {
-    "run_mode": "refresh",
+    "run_mode": "update",
     "bootstrap_status": "interview_in_progress",
     "interview_step": "approval_policy",
     "sync_status": "unvalidated",

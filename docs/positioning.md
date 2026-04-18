@@ -43,7 +43,7 @@ It now has:
 - a fixed shared contract schema
 - a durable/volatile file split
 - thin-entry-file rules
-- fixture cases for `bootstrap`, `refresh`, and `repair`
+- fixture cases for `bootstrap`, `update`, and `repair`
 - a deterministic repair playbook
 - a healthy checklist
 - a lightweight local audit script

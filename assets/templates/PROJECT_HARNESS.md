@@ -5,7 +5,7 @@
 - This document is the bootstrap template, not a completed project contract.
 - Durable contract lives in `PROJECT_HARNESS.md` and `harness-contract.json`.
 - Runtime interview/audit state lives in `harness-runtime.json`.
-- Classify every harness run as `bootstrap`, `refresh`, or `repair` before editing files.
+- Treat `/make-harness` as a single entry command: bootstrap when no harness exists, update when a healthy harness exists, and repair when drift or breakage is detected first.
 
 ## Canonical model
 

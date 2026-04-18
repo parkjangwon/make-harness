@@ -73,7 +73,7 @@ Treat this as volatile and gitignore it in shared repos when appropriate.
 ```json
 {
   "harness_version": 2,
-  "run_mode": "refresh",
+  "run_mode": "update",
   "bootstrap_status": "configured",
   "interview_step": "complete",
   "pending_fields": [],

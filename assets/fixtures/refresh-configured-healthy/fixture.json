@@ -1,6 +1,6 @@
 {
   "name": "refresh-configured-healthy",
-  "purpose": "A fully configured harness with aligned canonical and entry files should be treated as refresh.",
+  "purpose": "A fully configured harness with aligned canonical and entry files should be treated as update mode from the single `/make-harness` entrypoint.",
   "initial_conditions": {
     "managed_files_present": [
       "AGENTS.md",
@@ -17,7 +17,7 @@
     "entry_files_thin": true
   },
   "expected": {
-    "run_mode": "refresh",
+    "run_mode": "update",
     "bootstrap_status": "configured",
     "sync_status": "healthy",
     "entry_files_sync_status": "healthy",

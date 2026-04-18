@@ -1,6 +1,6 @@
 # Harness Examples
 
-These examples show what a healthy harness can look like after bootstrap or repair.
+These examples show what a healthy harness can look like after bootstrap, update, or repair.
 
 They are not templates to copy verbatim.
 They are reference outputs that make the contract shape easier to understand.

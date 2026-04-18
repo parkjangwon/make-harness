@@ -51,7 +51,7 @@ def test_validator_rejects_missing_required_keys_and_bad_sync_status():
         # environment intentionally missing
     }
     runtime = {
-        "run_mode": "refresh",
+        "run_mode": "update",
         "bootstrap_status": "configured",
         "interview_step": "complete",
         "pending_fields": [],
@@ -73,7 +73,7 @@ def test_validator_rejects_missing_required_keys_and_bad_sync_status():
 def test_validator_rejects_unknown_validated_shared_fields():
     module = load_validator_module()
     runtime = {
-        "run_mode": "refresh",
+        "run_mode": "update",
         "bootstrap_status": "configured",
         "interview_step": "complete",
         "pending_fields": [],
@@ -127,6 +127,17 @@ def test_refresh_fixture_includes_expected_contract_example():
     assert contract["project_type"] == "legacy"
     assert contract["project_commands"]["test"] == "pnpm test"
     assert "shared_contract_fields" in contract
+
+
+def test_single_entry_docs_prefer_update_when_harness_already_exists():
+    skill = (ROOT / "SKILL.md").read_text()
+    readme = (ROOT / "README.md").read_text()
+
+    assert "single entry" in skill
+    assert "If no harness exists, bootstrap it." in skill
+    assert "If the harness exists and is healthy, enter update mode." in skill
+    assert "If the harness exists but is drifted or broken, repair first" in skill
+    assert "healthy harness -> update" in readme
 
 
 def test_readme_documents_audit_success_and_failure_examples():

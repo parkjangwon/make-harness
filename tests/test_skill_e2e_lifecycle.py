@@ -79,7 +79,7 @@ def test_existing_repo_e2e_starts_with_detect_first_confirmation():
     assert "package_manager" in plan["skip_fields"]
 
 
-def test_materialized_healthy_repo_passes_real_audit(tmp_path):
+def test_materialized_healthy_repo_passes_real_audit_and_uses_update_mode(tmp_path):
     audit = load_module("audit_harness", ROOT / "tools" / "audit-harness.py")
     contract_overlay = load_json(FIXTURES / "refresh-configured-healthy" / "expected-contract.json")
     runtime_overlay = load_json(FIXTURES / "refresh-configured-healthy" / "expected-runtime.json")
@@ -89,6 +89,7 @@ def test_materialized_healthy_repo_passes_real_audit(tmp_path):
 
     errors = audit.audit_repository(repo)
 
+    assert runtime_overlay["run_mode"] == "update"
     assert errors == []
 
 
