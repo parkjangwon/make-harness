@@ -28,6 +28,38 @@ Typical pain before `make-harness`:
 
 In practice, the first win is simple: less repeated setup chatter and fewer drifted root files.
 
+## Who this is for
+
+`make-harness` is for developers and teams who:
+
+- use more than one AI coding tool on the same repository
+- keep re-explaining repo rules, commands, and guardrails to new AI sessions
+- want one local source of truth instead of hand-maintaining multiple root instruction files
+
+Common examples include teams mixing Claude Code, Codex, Gemini CLI, Cursor, or other agentic coding workflows.
+
+## What happens when you run `/make-harness`
+
+Typical flow:
+
+```text
+You: /make-harness
+
+Agent:
+1. inspect the repository and any existing harness files
+2. infer what it can from repo signals first
+3. ask only the missing durable questions
+4. generate or repair the harness files
+5. report whether the harness is healthy
+```
+
+Result:
+
+- `PROJECT_HARNESS.md` becomes the human-readable contract
+- `harness-contract.json` stores the machine-readable durable contract
+- `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` stay aligned as thin projections
+- audit and completion checks can verify whether the harness is still in a healthy state
+
 ## Install with skills.sh
 
 ```bash
@@ -56,34 +88,6 @@ Managed files:
 - `PROJECT_HARNESS.md`
 - `harness-contract.json`
 - `harness-runtime.json`
-
-## Structure
-
-```text
-make-harness/
-├── SKILL.md
-├── README.md
-├── README.ko.md
-├── docs/
-│   ├── coexistence.md
-│   └── positioning.md
-├── agents/
-│   ├── openai.yaml
-│   └── gemini.yaml
-├── tools/
-│   ├── apply-harness.py
-│   ├── audit-harness.py
-│   ├── check-harness-done.py
-│   ├── check-sensitive-change.py
-│   ├── interview_planner.py
-│   └── validate-fixtures.py
-└── assets/
-    ├── templates/
-    ├── fixtures/
-    ├── examples/
-    ├── healthy-checklist.md
-    └── repair-playbook.md
-```
 
 ## Core
 
@@ -199,6 +203,34 @@ python tools/check-harness-done.py /path/to/project
 ```
 
 This gate requires audit success, `configured` + `healthy` runtime state, full `validated_shared_fields`, and zero drift between the checked-in projections and deterministic generator output.
+
+## Structure
+
+```text
+make-harness/
+├── SKILL.md
+├── README.md
+├── README.ko.md
+├── docs/
+│   ├── coexistence.md
+│   └── positioning.md
+├── agents/
+│   ├── openai.yaml
+│   └── gemini.yaml
+├── tools/
+│   ├── apply-harness.py
+│   ├── audit-harness.py
+│   ├── check-harness-done.py
+│   ├── check-sensitive-change.py
+│   ├── interview_planner.py
+│   └── validate-fixtures.py
+└── assets/
+    ├── templates/
+    ├── fixtures/
+    ├── examples/
+    ├── healthy-checklist.md
+    └── repair-playbook.md
+```
 
 ## lightweight path-based guardrail smoke check
 

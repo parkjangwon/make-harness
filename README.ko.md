@@ -28,6 +28,38 @@
 
 처음 체감되는 효용은 단순하다. 같은 설명을 덜 반복하고, drift 난 루트 파일이 줄어든다.
 
+## 이런 사람에게 맞다
+
+`make-harness`는 이런 개발자와 팀에 맞습니다.
+
+- 한 리포에서 둘 이상의 AI 코딩 도구를 같이 쓴다
+- 새 AI 세션이 열릴 때마다 프로젝트 규칙, 명령, 가드레일을 다시 설명하게 된다
+- 여러 루트 instruction 파일을 손으로 맞추기보다 repo-local source of truth 하나를 두고 싶다
+
+예를 들면 Claude Code, Codex, Gemini CLI, Cursor 같은 도구를 함께 쓰는 팀이 대표적인 사용자입니다.
+
+## `/make-harness`를 실행하면 무슨 일이 일어나나
+
+전형적인 흐름은 이렇습니다.
+
+```text
+You: /make-harness
+
+Agent:
+1. 저장소와 기존 harness 파일을 먼저 본다
+2. repo signal에서 알 수 있는 건 먼저 추론한다
+3. durable하게 남아야 할 빈칸만 짧게 묻는다
+4. harness 파일을 생성하거나 repair한다
+5. 지금 harness가 healthy한지 알려준다
+```
+
+결과:
+
+- `PROJECT_HARNESS.md`가 사람이 읽는 계약 기준이 된다
+- `harness-contract.json`이 기계가 읽는 durable contract를 담는다
+- `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`는 얇은 projection으로 정렬된다
+- audit / completion check로 지금 harness가 healthy한지 검증할 수 있다
+
 ## Install with skills.sh
 
 ```bash
@@ -56,34 +88,6 @@ npx skills add parkjangwon/make-harness --list
 - `PROJECT_HARNESS.md`
 - `harness-contract.json`
 - `harness-runtime.json`
-
-## 구조
-
-```text
-make-harness/
-├── SKILL.md
-├── README.md
-├── README.ko.md
-├── docs/
-│   ├── coexistence.md
-│   └── positioning.md
-├── agents/
-│   ├── openai.yaml
-│   └── gemini.yaml
-├── tools/
-│   ├── apply-harness.py
-│   ├── audit-harness.py
-│   ├── check-harness-done.py
-│   ├── check-sensitive-change.py
-│   ├── interview_planner.py
-│   └── validate-fixtures.py
-└── assets/
-    ├── templates/
-    ├── fixtures/
-    ├── examples/
-    ├── healthy-checklist.md
-    └── repair-playbook.md
-```
 
 ## 핵심 원칙
 
@@ -195,6 +199,34 @@ python tools/check-harness-done.py /path/to/project
 ```
 
 이 게이트는 audit 성공, `configured` + `healthy` 상태, 전체 `validated_shared_fields`, 그리고 현재 projection이 deterministic generator 출력과 완전히 일치하는지를 요구한다.
+
+## 구조
+
+```text
+make-harness/
+├── SKILL.md
+├── README.md
+├── README.ko.md
+├── docs/
+│   ├── coexistence.md
+│   └── positioning.md
+├── agents/
+│   ├── openai.yaml
+│   └── gemini.yaml
+├── tools/
+│   ├── apply-harness.py
+│   ├── audit-harness.py
+│   ├── check-harness-done.py
+│   ├── check-sensitive-change.py
+│   ├── interview_planner.py
+│   └── validate-fixtures.py
+└── assets/
+    ├── templates/
+    ├── fixtures/
+    ├── examples/
+    ├── healthy-checklist.md
+    └── repair-playbook.md
+```
 
 ## lightweight path-based guardrail smoke check
 
