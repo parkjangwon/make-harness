@@ -54,6 +54,7 @@ make-harness/
 │   ├── apply-harness.py
 │   ├── audit-harness.py
 │   ├── check-harness-done.py
+│   ├── check-sensitive-change.py
 │   ├── interview_planner.py
 │   └── validate-fixtures.py
 └── assets/
@@ -174,6 +175,30 @@ python tools/check-harness-done.py /path/to/project
 ```
 
 이 게이트는 audit 성공, `configured` + `healthy` 상태, 전체 `validated_shared_fields`, 그리고 현재 projection이 deterministic generator 출력과 완전히 일치하는지를 요구한다.
+
+## diff-sensitive guardrail gate
+
+다음 명령으로 auth / 권한 / secret / 결제 / 암호화 / public API 영역을 건드리는 변경을 감지할 수 있다:
+
+```text
+python tools/check-sensitive-change.py /path/to/project --paths src/auth/login.py config/tls-dev.yaml
+```
+
+git ref 기준으로 검사하려면 다음처럼 실행한다:
+
+```text
+python tools/check-sensitive-change.py /path/to/project --base HEAD~1 --head HEAD
+```
+
+관련 `rule_strengths`가 `enforced`면 민감한 변경은 완료/CI/hook 단계에서 차단된다. `guided`면 카테고리를 보고만 하고 막지는 않는다.
+
+## hooks and CI
+
+- CI는 이제 `audit-harness`, `check-harness-done`, diff-sensitive smoke check를 함께 실행한다.
+- 샘플 git hook은 `assets/templates/pre-commit-harness.sh`에 있다.
+- hook은 `HEAD~1..HEAD` 가정 대신 `git diff --cached --name-only --diff-filter=ACMR` 기준으로 staged file만 검사한다.
+- `HERMES_HOOK_MODE`는 `strict`(기본), `warn`, `off`를 지원한다.
+- hook은 `audit: pass`, `done-gate: pass`, `sensitive-change: pass` 같은 짧은 요약을 출력해서 실패 이유를 더 읽기 쉽게 만든다.
 
 성공 예시:
 

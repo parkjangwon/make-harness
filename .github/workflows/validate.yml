@@ -34,3 +34,36 @@ jobs:
           mkdir -p /tmp/make-harness-audit-sample
           cp assets/templates/AGENTS.md assets/templates/CLAUDE.md assets/templates/GEMINI.md assets/templates/PROJECT_HARNESS.md assets/templates/harness-contract.json assets/templates/harness-runtime.json /tmp/make-harness-audit-sample/
           python3 tools/audit-harness.py /tmp/make-harness-audit-sample
+
+      - name: Check template completion gate sample
+        run: |
+          rm -rf /tmp/make-harness-done-sample
+          mkdir -p /tmp/make-harness-done-sample
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('.')
+          out = Path('/tmp/make-harness-done-sample')
+          contract = json.loads((root / 'assets/templates/harness-contract.json').read_text())
+          overlay = json.loads((root / 'assets/fixtures/refresh-configured-healthy/expected-contract.json').read_text())
+          runtime = json.loads((root / 'assets/templates/harness-runtime.json').read_text())
+          rover = json.loads((root / 'assets/fixtures/refresh-configured-healthy/expected-runtime.json').read_text())
+          def merge(a, b):
+              result = json.loads(json.dumps(a))
+              for key, value in b.items():
+                  if isinstance(value, dict) and isinstance(result.get(key), dict):
+                      result[key] = merge(result[key], value)
+                  else:
+                      result[key] = value
+              return result
+          contract = merge(contract, overlay)
+          runtime = merge(runtime, rover)
+          runtime.pop('phase', None)
+          (out / 'harness-contract.json').write_text(json.dumps(contract, indent=2) + '\n')
+          (out / 'harness-runtime.json').write_text(json.dumps(runtime, indent=2) + '\n')
+          PY
+          python3 tools/apply-harness.py /tmp/make-harness-done-sample
+          python3 tools/check-harness-done.py /tmp/make-harness-done-sample
+
+      - name: Check diff-sensitive guardrail sample
+        run: python3 tools/check-sensitive-change.py /tmp/make-harness-done-sample --paths README.md

@@ -54,6 +54,7 @@ make-harness/
 │   ├── apply-harness.py
 │   ├── audit-harness.py
 │   ├── check-harness-done.py
+│   ├── check-sensitive-change.py
 │   ├── interview_planner.py
 │   └── validate-fixtures.py
 └── assets/
@@ -178,6 +179,30 @@ python tools/check-harness-done.py /path/to/project
 ```
 
 This gate requires audit success, `configured` + `healthy` runtime state, full `validated_shared_fields`, and zero drift between the checked-in projections and deterministic generator output.
+
+## diff-sensitive guardrail gate
+
+Run to detect whether a diff touches auth / permissions / secrets / payments / encryption / public API areas:
+
+```text
+python tools/check-sensitive-change.py /path/to/project --paths src/auth/login.py config/tls-dev.yaml
+```
+
+For git-based checks, use refs instead of explicit paths:
+
+```text
+python tools/check-sensitive-change.py /path/to/project --base HEAD~1 --head HEAD
+```
+
+If the relevant `rule_strengths` are `enforced`, sensitive changes block completion and hooks/CI can fail. If they are only `guided`, the checker reports the category but does not block.
+
+## hooks and CI
+
+- CI now runs `audit-harness`, `check-harness-done`, and a diff-sensitive smoke check.
+- A sample git hook is provided at `assets/templates/pre-commit-harness.sh`.
+- The hook now checks staged files with `git diff --cached --name-only --diff-filter=ACMR` instead of assuming `HEAD~1..HEAD`.
+- `HERMES_HOOK_MODE` supports `strict` (default), `warn`, and `off`.
+- The hook prints short summaries like `audit: pass`, `done-gate: pass`, and `sensitive-change: pass` so failures are easier to understand.
 
 Example success output:
 

@@ -23,6 +23,7 @@ Create, update, or repair these project-local files:
 Template sources live in [assets/templates](assets/templates).
 Use [tools/apply-harness.py](tools/apply-harness.py) to deterministically regenerate the projection files from the contract/runtime pair.
 Use [tools/check-harness-done.py](tools/check-harness-done.py) as the completion gate before treating a harness as finished.
+Use [tools/check-sensitive-change.py](tools/check-sensitive-change.py) when CI, hooks, or reviewers need a deterministic answer about whether the current diff touches sensitive areas.
 
 ## Core behavior
 
@@ -39,9 +40,11 @@ Use [tools/check-harness-done.py](tools/check-harness-done.py) as the completion
 11. Keep `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` thin. Put the durable contract in `PROJECT_HARNESS.md`, then keep the entry files as pointers and summary rules.
 12. Validate that the managed harness files agree on the confirmed contract. If drift is detected, repair it before finishing.
 13. Run the completion gate before declaring success: audit must pass, runtime state must be healthy, validated shared fields must be complete, and deterministic projections must match the checked-in files.
-14. Record a concise change history entry whenever the durable project contract changes.
-15. Do not store per-request work types such as `bugfix`, `feature`, `maintenance`, or `refactor` as permanent harness state.
-16. Do not store framework-level orchestration preferences as permanent harness state.
+14. When the current diff touches sensitive areas, use the diff-sensitive guardrail checker so CI/hooks can fail deterministically when enforced guardrails apply.
+15. For hook integration, prefer staged-file checks over `HEAD~1..HEAD` guesses, and allow a small `strict` / `warn` / `off` mode switch instead of a single hard-coded behavior.
+16. Record a concise change history entry whenever the durable project contract changes.
+17. Do not store per-request work types such as `bugfix`, `feature`, `maintenance`, or `refactor` as permanent harness state.
+18. Do not store framework-level orchestration preferences as permanent harness state.
 
 ## Run classification
 
@@ -107,6 +110,7 @@ After bootstrap, update, or repair, the target project should have:
 - Local audit tool: [tools/audit-harness.py](tools/audit-harness.py) — checks managed files, `PROJECT_HARNESS.md` structure, entry thinness, and runtime invariants
 - Deterministic projection generator: [tools/apply-harness.py](tools/apply-harness.py) — regenerates `PROJECT_HARNESS.md`, `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` from the canonical contract/runtime files
 - Completion gate: [tools/check-harness-done.py](tools/check-harness-done.py) — requires audit success, healthy runtime state, full validated shared fields, and zero projection drift before the harness is treated as done
+- Diff-sensitive guardrail checker: [tools/check-sensitive-change.py](tools/check-sensitive-change.py) — classifies auth / permissions / secrets / payments / encryption / public-API touching diffs and blocks them when the relevant rule strengths are enforced
 - Positioning: [docs/positioning.md](docs/positioning.md)
 - Contributing: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Optional UI metadata: [agents/openai.yaml](agents/openai.yaml), [agents/gemini.yaml](agents/gemini.yaml)

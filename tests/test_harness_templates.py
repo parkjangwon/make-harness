@@ -181,6 +181,26 @@ def test_docs_reference_harness_done_gate():
     assert "tools/check-harness-done.py" in skill
 
 
+def test_docs_reference_hook_template_and_sensitive_change_gate():
+    readme = (ROOT / "README.md").read_text()
+    skill = (ROOT / "SKILL.md").read_text()
+    hook = ROOT / "assets" / "templates" / "pre-commit-harness.sh"
+    hook_text = hook.read_text()
+
+    assert "python tools/check-sensitive-change.py /path/to/project" in readme
+    assert "pre-commit-harness.sh" in readme
+    assert "check-sensitive-change.py" in skill
+    assert hook.exists()
+    assert "git diff --cached --name-only" in hook_text
+    assert "HERMES_HOOK_MODE" in hook_text
+    assert "strict" in hook_text
+    assert "warn" in hook_text
+    assert "off" in hook_text
+    assert "audit: pass" in hook_text
+    assert "done-gate: pass" in hook_text
+    assert "sensitive-change: pass" in hook_text
+
+
 def test_ci_workflow_exists_and_runs_core_checks():
     workflow = ROOT / ".github" / "workflows" / "validate.yml"
     assert workflow.exists()
@@ -191,6 +211,8 @@ def test_ci_workflow_exists_and_runs_core_checks():
     assert "python3 -m pytest -q" in text
     assert "python3 tools/validate-fixtures.py" in text
     assert "python3 tools/audit-harness.py" in text
+    assert "python3 tools/check-harness-done.py" in text
+    assert "python3 tools/check-sensitive-change.py" in text
     assert "python3 -m py_compile tools/*.py tests/*.py" in text
 
 
