@@ -53,6 +53,7 @@ make-harness/
 ├── tools/
 │   ├── apply-harness.py
 │   ├── audit-harness.py
+│   ├── check-harness-done.py
 │   ├── interview_planner.py
 │   └── validate-fixtures.py
 └── assets/
@@ -163,6 +164,16 @@ python tools/apply-harness.py /path/to/project
 ```
 
 이 도구는 리포 안에서 가장 작은 실행 계층이다. LLM이 durable contract를 결정하더라도 projection file은 손으로 다시 쓰지 않게 해준다.
+
+## Completion gate
+
+하네스가 단순히 존재하는 수준이 아니라 실제로 완료 가능한 상태인지 확인하려면 다음을 실행하세요:
+
+```text
+python tools/check-harness-done.py /path/to/project
+```
+
+이 게이트는 audit 성공, `configured` + `healthy` 상태, 전체 `validated_shared_fields`, 그리고 현재 projection이 deterministic generator 출력과 완전히 일치하는지를 요구한다.
 
 성공 예시:
 

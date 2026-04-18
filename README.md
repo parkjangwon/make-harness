@@ -53,6 +53,7 @@ make-harness/
 ├── tools/
 │   ├── apply-harness.py
 │   ├── audit-harness.py
+│   ├── check-harness-done.py
 │   ├── interview_planner.py
 │   └── validate-fixtures.py
 └── assets/
@@ -167,6 +168,16 @@ python tools/apply-harness.py /path/to/project
 ```
 
 This is the smallest execution layer in the repo: the LLM can decide the durable contract, but projection files no longer need to be handwritten.
+
+## completion gate
+
+Run to decide whether a harness is actually done, not just structurally present:
+
+```text
+python tools/check-harness-done.py /path/to/project
+```
+
+This gate requires audit success, `configured` + `healthy` runtime state, full `validated_shared_fields`, and zero drift between the checked-in projections and deterministic generator output.
 
 Example success output:
 

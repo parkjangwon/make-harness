@@ -22,6 +22,7 @@ Create, update, or repair these project-local files:
 
 Template sources live in [assets/templates](assets/templates).
 Use [tools/apply-harness.py](tools/apply-harness.py) to deterministically regenerate the projection files from the contract/runtime pair.
+Use [tools/check-harness-done.py](tools/check-harness-done.py) as the completion gate before treating a harness as finished.
 
 ## Core behavior
 
@@ -37,9 +38,10 @@ Use [tools/apply-harness.py](tools/apply-harness.py) to deterministically regene
 10. Record minimal enforcement intent in `rule_strengths` so the contract can distinguish advisory, guided, and enforced rules.
 11. Keep `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` thin. Put the durable contract in `PROJECT_HARNESS.md`, then keep the entry files as pointers and summary rules.
 12. Validate that the managed harness files agree on the confirmed contract. If drift is detected, repair it before finishing.
-13. Record a concise change history entry whenever the durable project contract changes.
-14. Do not store per-request work types such as `bugfix`, `feature`, `maintenance`, or `refactor` as permanent harness state.
-15. Do not store framework-level orchestration preferences as permanent harness state.
+13. Run the completion gate before declaring success: audit must pass, runtime state must be healthy, validated shared fields must be complete, and deterministic projections must match the checked-in files.
+14. Record a concise change history entry whenever the durable project contract changes.
+15. Do not store per-request work types such as `bugfix`, `feature`, `maintenance`, or `refactor` as permanent harness state.
+16. Do not store framework-level orchestration preferences as permanent harness state.
 
 ## Run classification
 
@@ -104,6 +106,7 @@ After bootstrap, update, or repair, the target project should have:
 - Sample output: [assets/examples](assets/examples)
 - Local audit tool: [tools/audit-harness.py](tools/audit-harness.py) — checks managed files, `PROJECT_HARNESS.md` structure, entry thinness, and runtime invariants
 - Deterministic projection generator: [tools/apply-harness.py](tools/apply-harness.py) — regenerates `PROJECT_HARNESS.md`, `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` from the canonical contract/runtime files
+- Completion gate: [tools/check-harness-done.py](tools/check-harness-done.py) — requires audit success, healthy runtime state, full validated shared fields, and zero projection drift before the harness is treated as done
 - Positioning: [docs/positioning.md](docs/positioning.md)
 - Contributing: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Optional UI metadata: [agents/openai.yaml](agents/openai.yaml), [agents/gemini.yaml](agents/gemini.yaml)

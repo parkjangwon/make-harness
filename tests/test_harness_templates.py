@@ -172,6 +172,15 @@ def test_docs_reference_deterministic_projection_generator():
     assert "tools/apply-harness.py" in skill
 
 
+def test_docs_reference_harness_done_gate():
+    readme = (ROOT / "README.md").read_text()
+    skill = (ROOT / "SKILL.md").read_text()
+
+    assert "python tools/check-harness-done.py /path/to/project" in readme
+    assert "completion gate" in readme
+    assert "tools/check-harness-done.py" in skill
+
+
 def test_ci_workflow_exists_and_runs_core_checks():
     workflow = ROOT / ".github" / "workflows" / "validate.yml"
     assert workflow.exists()

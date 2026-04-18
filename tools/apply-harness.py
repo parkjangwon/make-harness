@@ -233,15 +233,19 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
     return "\n".join(lines)
 
 
+def build_projection_files(contract: dict, runtime: dict) -> dict[str, str]:
+    projections = {name: render_entry_file(title) for name, title in ENTRY_TITLES.items()}
+    projections["PROJECT_HARNESS.md"] = render_project_harness(contract, runtime)
+    return projections
+
+
 def apply_harness(repo_root: Path | str) -> None:
     repo_root = Path(repo_root).resolve()
     contract = load_json(repo_root / "harness-contract.json")
     runtime = load_json(repo_root / "harness-runtime.json")
 
-    for name, title in ENTRY_TITLES.items():
-        (repo_root / name).write_text(render_entry_file(title))
-
-    (repo_root / "PROJECT_HARNESS.md").write_text(render_project_harness(contract, runtime))
+    for name, content in build_projection_files(contract, runtime).items():
+        (repo_root / name).write_text(content)
 
 
 def main(argv: list[str]) -> int:
