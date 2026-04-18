@@ -1,0 +1,30 @@
+{
+  "name": "bootstrap-detect-korean",
+  "purpose": "When repository signals strongly suggest Korean, the interview should start from detect-first language confirmation rather than blind English-first behavior.",
+  "initial_conditions": {
+    "managed_files_present": [],
+    "bootstrap_status": "pending_interview",
+    "pending_fields": [
+      "communication_language"
+    ],
+    "repo_language_signal": "korean_readme",
+    "repo_language_confidence": "high"
+  },
+  "expected": {
+    "run_mode": "bootstrap",
+    "bootstrap_status": "pending_interview",
+    "sync_status": "unvalidated",
+    "checks": [
+      "Runtime state should preserve detect-first language hints.",
+      "The harness should still require explicit language confirmation before finalizing durable defaults."
+    ],
+    "interview_mode": "repo_first_gap_fill",
+    "next_question_field": "communication_language",
+    "next_question_style": "confirmation",
+    "discovery_fields": [],
+    "skip_fields": [
+      "runtime",
+      "package_manager"
+    ]
+  }
+}

@@ -4,7 +4,7 @@
 
 `make-harness` bootstraps and maintains a repository-local AI harness.
 
-It does not replace a strong agent framework. It fixes project-local operating rules and guardrails into local files.
+It does not replace a strong agent framework. It fixes durable project-local rules and guardrails into local files, while keeping volatile interview and sync state separate.
 
 Korean version: [README.ko.md](README.ko.md)
 
@@ -34,7 +34,8 @@ Managed files:
 - `CLAUDE.md`
 - `GEMINI.md`
 - `PROJECT_HARNESS.md`
-- `harness-state.json`
+- `harness-contract.json`
+- `harness-runtime.json`
 
 ## Structure
 
@@ -44,16 +45,17 @@ make-harness/
 ├── README.md
 ├── README.ko.md
 ├── docs/
+│   ├── coexistence.md
 │   └── positioning.md
 ├── agents/
 │   ├── openai.yaml
 │   └── gemini.yaml
 ├── tools/
+│   ├── audit-harness.py
+│   ├── interview_planner.py
 │   └── validate-fixtures.py
 └── assets/
     ├── templates/
-    │   ├── .gitignore-harness
-    │   └── ...
     ├── fixtures/
     ├── examples/
     ├── healthy-checklist.md
@@ -62,26 +64,27 @@ make-harness/
 
 ## Core
 
-- `PROJECT_HARNESS.md` + `harness-state.json` are the canonical source
+- `PROJECT_HARNESS.md` + `harness-contract.json` are the canonical durable contract
+- `harness-runtime.json` is volatile runtime state only
 - `AGENTS.md` + `CLAUDE.md` + `GEMINI.md` are thin projections
-- only durable defaults and guardrails belong here
+- only durable defaults and guardrails belong in the durable contract
 - drift should be visible and repairable
 - this skill should stay easy to compose with stronger frameworks and specialist skills
 
 ## Shared contract fields
 
-- `communication_language` (collaboration language)
-- `project_type` (project type)
-- `definition_of_done` (definition of done)
-- `change_posture` (change posture)
-- `change_guardrails` (change guardrails)
-- `verification_policy` (verification policy)
-- `approval_policy` (approval boundary)
-- `project_commands` (default project commands)
-- `project_constraints` (project constraints)
-- `communication_tone` (response tone)
-- `stack_summary` (stack summary)
-- `environment` (development and runtime environment)
+- `communication_language`
+- `project_type`
+- `definition_of_done`
+- `change_posture`
+- `change_guardrails`
+- `verification_policy`
+- `approval_policy`
+- `project_commands`
+- `project_constraints`
+- `communication_tone`
+- `stack_summary`
+- `environment`
 
 ## Modes
 
@@ -91,35 +94,39 @@ make-harness/
 
 ## Interview
 
-The skill inspects the repository first, then runs a short interview — one question at a time. Where the repository already gives a clear answer, it asks for confirmation instead of asking open-ended. The full question set covers:
+The skill inspects the repository first, then runs a short interview — one question at a time. It should detect likely collaboration language from repo signals first, then confirm when unclear. Where the repository already gives a clear answer, it asks for confirmation instead of asking open-ended.
 
-- Collaboration language
-- New or existing project
-- Reply length preference
-- Definition of done
-- Change posture (careful / balanced / bold)
-- Change guardrails
-- Verification policy
-- Default project commands
-- Project constraints not visible from the repo
-- Stack summary confirmation
-- Environment constraints
+The interview is intentionally bounded:
 
-## harness-state.json
+- this is a one-time setup, so precision matters more than blindly minimizing question count
+- existing repositories use repo-first gap-filling rather than broad setup questions
+- blank projects use a small upfront setup-discovery interview because there is no code to inspect
+- fixed question order for durable defaults
+- detect-first branching based on repo confidence
+- question budget targeting 5 or fewer explicit questions for common repos, while allowing denser blank-project discovery when needed
+- canonical normalization for free-form answers like change posture, approval policy, and verification policy
+- explicit resume and contradiction rules when `harness-runtime.json` shows an interrupted setup
 
-The state file tracks both durable config and volatile runtime state.
+Details: [references/interview-guide.md](references/interview-guide.md), [references/interview-protocol.md](references/interview-protocol.md)
 
-- `_config_fields`: safe to commit — the durable project contract
-- `_volatile_fields`: runtime state (interview progress, sync metadata) — causes merge conflicts on shared repos
+## Durable vs volatile files
 
-For shared repositories, consider adding `harness-state.json` to `.gitignore`. A starter template is at [assets/templates/.gitignore-harness](assets/templates/.gitignore-harness).
+### `harness-contract.json`
+
+Commit this file. It stores the durable machine-readable project contract.
+
+### `harness-runtime.json`
+
+Do not treat this as canonical durable state. It stores interview progress, sync metadata, language detection hints, and audit timestamps.
+
+For shared repositories, consider adding `harness-runtime.json` to `.gitignore`. A starter template is at [assets/templates/.gitignore-harness](assets/templates/.gitignore-harness).
 
 ## Healthy means
 
 - all managed files exist
-- canonical sources agree on the shared contract schema
+- canonical durable sources agree on the shared contract schema
 - entry files are thin and reflect the same contract summary
-- state invariants hold
+- runtime invariants hold
 - sync metadata is healthy
 
 Details: [assets/healthy-checklist.md](assets/healthy-checklist.md)
@@ -132,7 +139,43 @@ Run to verify all fixture scenarios are structurally valid:
 python tools/validate-fixtures.py
 ```
 
-Checks state invariants, template schema alignment, and run-mode consistency across all fixture cases.
+This validator now also cross-checks interview-heavy fixtures against a deterministic planner in `tools/interview_planner.py`, so blank-project discovery, detect-first confirmation, and resume behavior stay behaviorally pinned rather than living only in prose.
+
+## Lightweight audit
+
+Run to check a repository-local harness layout without invoking an LLM:
+
+```text
+python tools/audit-harness.py /path/to/project
+```
+
+This verifies the file set, contract/runtime split, required `PROJECT_HARNESS.md` sections, entry-file thinness, and a few critical runtime invariants.
+
+Example success output:
+
+```text
+PASS: managed files present, contract/runtime split detected, entry files thin
+```
+
+Example failure output:
+
+```text
+missing managed files: ['harness-contract.json', 'harness-runtime.json']
+```
+
+## Quick decision guide
+
+Use `make-harness` when:
+
+- a repository keeps drifting across `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md`
+- the team wants durable local defaults without adopting a heavier framework
+- hidden legacy constraints should be captured once and reused across sessions
+
+Do not use it when:
+
+- the repo is disposable
+- the real problem is execution orchestration rather than local contract clarity
+- you want the skill to manage runtime tools, plugins, or agent teams
 
 ## Resources
 
@@ -140,15 +183,15 @@ Checks state invariants, template schema alignment, and run-mode consistency acr
 - coexistence: [docs/coexistence.md](docs/coexistence.md)
 - fixtures: [assets/fixtures](assets/fixtures)
 - fixture validator: [tools/validate-fixtures.py](tools/validate-fixtures.py)
+- interview planner: [tools/interview_planner.py](tools/interview_planner.py)
+- lightweight audit: [tools/audit-harness.py](tools/audit-harness.py)
 - sample output: [assets/examples](assets/examples)
+- rollout example: [assets/examples/legacy-webapp-rollout.md](assets/examples/legacy-webapp-rollout.md)
+- interview guide: [references/interview-guide.md](references/interview-guide.md)
+- interview protocol: [references/interview-protocol.md](references/interview-protocol.md)
 - repair playbook: [assets/repair-playbook.md](assets/repair-playbook.md)
 - healthy checklist: [assets/healthy-checklist.md](assets/healthy-checklist.md)
 - gitignore template: [assets/templates/.gitignore-harness](assets/templates/.gitignore-harness)
-
-Recommended examples:
-
-- healthy harness: [assets/examples/legacy-webapp-healthy.md](assets/examples/legacy-webapp-healthy.md)
-- before/after: [assets/examples/legacy-webapp-before-after.md](assets/examples/legacy-webapp-before-after.md)
 
 ## Usage
 
@@ -157,5 +200,5 @@ Recommended examples:
 ```
 
 ```text
-Use the make-harness skill to set up a harness for this repository.
+Use the make-harness skill to set up or repair a durable local project contract for this repository.
 ```

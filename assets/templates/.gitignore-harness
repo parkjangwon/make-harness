@@ -1,11 +1,3 @@
-# harness-state.json contains both durable config and volatile runtime state.
-#
-# If this is a shared repository, consider ignoring harness-state.json to avoid
-# merge conflicts on fields like interview_step, sync_status, and last_validated_at.
-# Instead, commit PROJECT_HARNESS.md as the human-readable project contract.
-#
-# If you are the only person working with AI agents on this repo, committing
-# harness-state.json is fine — it lets agents resume without re-interviewing.
-#
-# Uncomment the line below to gitignore runtime state:
-# harness-state.json
+harness-runtime.json
+# Commit harness-contract.json.
+# Ignore harness-runtime.json in shared repos when runtime churn is noisy.

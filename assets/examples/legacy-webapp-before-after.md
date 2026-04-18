@@ -1,102 +1,112 @@
-# Before / After Example: Legacy Web App
+# Before/After: Durable Contract Split
 
-This example shows the difference between a weak pre-harness state and a stable post-harness state.
+This example shows the exact structural change `make-harness` now encourages.
 
 ## Before
 
-```md
-# AGENTS.md
+A single file tried to carry two responsibilities at once:
 
-- be careful
-- run tests if possible
-- don't break things
-```
-
-```md
-# CLAUDE.md
-
-- use Korean
-- ask before major changes
-```
-
-```md
-# GEMINI.md
-
-- keep responses short
-- try not to change too much
-```
-
-### What is wrong here
-
-- each entry file carries a different partial contract
-- no canonical source exists
-- approval, verification, and completion standards are vague
-- switching CLI can easily change behavior
-- drift is hard to detect
-
-## After
-
-```md
-# AGENTS.md
-
-Read `PROJECT_HARNESS.md` first.
-Read `harness-state.json` before making assumptions.
-
-- Treat canonical sources as authoritative.
-- Keep this file thin.
-```
-
-```md
-# CLAUDE.md
-
-Read `PROJECT_HARNESS.md` first.
-Read `harness-state.json` before making assumptions.
-
-- Treat canonical sources as authoritative.
-- Keep this file thin.
-```
-
-```md
-# GEMINI.md
-
-Read `PROJECT_HARNESS.md` first.
-Read `harness-state.json` before making assumptions.
-
-- Treat canonical sources as authoritative.
-- Keep this file thin.
-```
-
-```md
-# PROJECT_HARNESS.md
-
-## Shared Contract
-- Project type: `legacy`
-- Definition of done: working code plus verification
-- Change posture: conservative
-- Verification policy: required
-- Approval policy: dependencies, schema changes, and production config changes require approval
-- Project constraints:
-  - preserve existing routes and API responses
-  - avoid broad refactors without approval
-```
+- durable project defaults that should survive across clones and commits
+- volatile runtime state such as interview progress and sync metadata
 
 ```json
 {
+  "bootstrap_status": "interview_in_progress",
+  "interview_step": "verification_policy",
+  "sync_status": "drifted",
+  "communication_language": "ko",
+  "project_type": "legacy",
+  "definition_of_done": "working_code_verified",
+  "project_commands": {
+    "test": "pnpm test",
+    "lint": "pnpm lint"
+  }
+}
+```
+
+Why this is weak:
+
+- runtime-only fields create noisy diffs and merge conflicts
+- teams get pushed toward gitignoring the whole file
+- once that happens, the durable machine-readable contract is no longer a reliable canonical source
+
+## After
+
+The durable contract and volatile runtime state are split.
+
+### `harness-contract.json`
+
+Commit this file.
+
+```json
+{
+  "harness_version": 2,
+  "shared_contract_fields": [
+    "communication_language",
+    "project_type",
+    "definition_of_done",
+    "change_posture",
+    "change_guardrails",
+    "verification_policy",
+    "approval_policy",
+    "project_commands",
+    "project_constraints",
+    "communication_tone",
+    "stack_summary",
+    "environment"
+  ],
+  "communication_language": "ko",
+  "project_type": "legacy",
+  "definition_of_done": "working_code_verified",
+  "change_posture": "conservative",
+  "change_guardrails": [
+    "avoid broad rewrites without approval"
+  ],
+  "verification_policy": "required"
+}
+```
+
+### `harness-runtime.json`
+
+Treat this as volatile and gitignore it in shared repos when appropriate.
+
+```json
+{
+  "harness_version": 2,
+  "run_mode": "refresh",
   "bootstrap_status": "configured",
   "interview_step": "complete",
+  "pending_fields": [],
+  "confirmed_fields": [
+    "communication_language",
+    "project_type",
+    "definition_of_done"
+  ],
+  "validated_shared_fields": [
+    "communication_language",
+    "project_type",
+    "definition_of_done"
+  ],
   "sync_status": "healthy",
   "entry_files_sync": {
     "status": "healthy"
   },
-  "drift_reasons": []
+  "language_detection": {
+    "strategy": "detect_first_then_confirm",
+    "repo_signal": "korean_readme",
+    "confidence": "high"
+  }
 }
 ```
 
-### What improved
+## What improved
 
-- one canonical contract replaced three drifting mini-contracts
-- completion, approval, and verification expectations became explicit
-- default commands for checking and running work became explicit
-- entry files became projections instead of competing sources of truth
-- drift became easier to detect and repair
-- switching tools is less likely to change the project contract
+- canonical durable state stays committable
+- runtime churn no longer pollutes the durable contract
+- repair can normalize durable and volatile state separately
+- entry files can stay thin because they point to a cleaner source model
+
+## Practical takeaway
+
+If a field should survive as a stable project rule, put it in the durable contract.
+If a field only exists to help the current setup, audit, or sync run, put it in runtime state.

@@ -1,0 +1,24 @@
+{
+  "phase": "post_classification",
+  "run_mode": "bootstrap",
+  "bootstrap_status": "pending_interview",
+  "interview_step": "communication_language",
+  "sync_status": "unvalidated",
+  "entry_files_sync": {
+    "status": "unvalidated"
+  },
+  "pending_fields": [
+    "communication_language",
+    "project_type"
+  ],
+  "confirmed_fields": [],
+  "validated_shared_fields": [],
+  "drift_reasons": [],
+  "last_audit_at": null,
+  "last_validated_at": null,
+  "language_detection": {
+    "strategy": "detect_first_then_confirm",
+    "repo_signal": "mixed",
+    "confidence": "low"
+  }
+}

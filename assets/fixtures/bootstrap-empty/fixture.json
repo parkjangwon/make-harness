@@ -20,6 +20,18 @@
       "The first interview question should be about collaboration language.",
       "The shared contract fields should remain fully pending.",
       "The run should not be treated as configured."
-    ]
+    ],
+    "interview_mode": "setup_discovery",
+    "next_question_field": "communication_language",
+    "next_question_style": "open",
+    "discovery_fields": [
+      "communication_language",
+      "project_type",
+      "stack_summary",
+      "runtime",
+      "package_manager",
+      "project_commands"
+    ],
+    "skip_fields": []
   }
 }

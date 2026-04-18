@@ -1,0 +1,34 @@
+{
+  "name": "bootstrap-conflicting-signals",
+  "purpose": "When repository signals are mixed, the interview should avoid overconfident confirmation and fall back to a plain language open question.",
+  "initial_conditions": {
+    "managed_files_present": [],
+    "bootstrap_status": "pending_interview",
+    "pending_fields": [
+      "communication_language",
+      "project_type"
+    ],
+    "repo_language_signal": "mixed",
+    "repo_language_confidence": "low",
+    "notes": [
+      "README is Korean but comments and file naming strongly mix English and Korean."
+    ]
+  },
+  "expected": {
+    "run_mode": "bootstrap",
+    "bootstrap_status": "pending_interview",
+    "sync_status": "unvalidated",
+    "checks": [
+      "The first language question should be open-ended rather than a strong confirmation.",
+      "Mixed signals should remain temporary inference until the user answers explicitly."
+    ],
+    "interview_mode": "repo_first_gap_fill",
+    "next_question_field": "communication_language",
+    "next_question_style": "open",
+    "discovery_fields": [],
+    "skip_fields": [
+      "runtime",
+      "package_manager"
+    ]
+  }
+}

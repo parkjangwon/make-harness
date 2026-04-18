@@ -10,18 +10,13 @@
   "pending_fields": [
     "communication_language",
     "project_type",
-    "change_posture",
-    "definition_of_done",
-    "change_guardrails",
-    "verification_policy",
-    "approval_policy",
     "project_commands",
-    "project_constraints",
-    "communication_tone",
     "stack_summary",
     "environment"
   ],
   "confirmed_fields": [],
   "validated_shared_fields": [],
-  "drift_reasons": []
+  "drift_reasons": [],
+  "last_audit_at": null,
+  "last_validated_at": null
 }

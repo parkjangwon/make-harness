@@ -1,17 +1,10 @@
 {
-  "phase": "post_repair_validation",
+  "phase": "post_classification",
   "run_mode": "repair",
   "bootstrap_status": "configured",
   "interview_step": "complete",
-  "sync_status": "healthy",
-  "entry_files_sync": {
-    "status": "healthy"
-  },
   "pending_fields": [],
-  "drift_reasons": [
-    "entry_file_contract_mismatch"
-  ],
-  "validated_shared_fields": [
+  "confirmed_fields": [
     "communication_language",
     "project_type",
     "definition_of_done",
@@ -25,7 +18,14 @@
     "stack_summary",
     "environment"
   ],
-  "notes": [
-    "The recorded drift reason may remain in history or notes, but the synchronized state should return to healthy."
-  ]
+  "validated_shared_fields": [],
+  "drift_reasons": [
+    "missing_managed_file"
+  ],
+  "sync_status": "drifted",
+  "entry_files_sync": {
+    "status": "healthy"
+  },
+  "last_audit_at": null,
+  "last_validated_at": null
 }

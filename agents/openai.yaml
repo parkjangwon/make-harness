@@ -1,4 +1,4 @@
 version: 1
 display_name: make-harness
 short_description: Bootstrap or sync a project-local AI harness and its root contract files
-default_prompt: Use the make-harness skill to inspect this repository, classify the run as bootstrap, refresh, or repair, ask first in English which language to use for the setup interview and future collaboration, then switch immediately into the confirmed language for all following questions, interview me briefly for durable project defaults, execution guardrails, and project constraints, without hardcoding framework-level orchestration tactics or asking for inferable metadata by default, and synchronize the local harness files.
+default_prompt: Use the make-harness skill to inspect this repository, classify the run as bootstrap, refresh, or repair, detect likely collaboration language from repo signals before defaulting to English, interview me briefly for durable project defaults and execution guardrails, keep AGENTS/CLAUDE/GEMINI thin, store durable state in harness-contract.json, store volatile state in harness-runtime.json, and synchronize the local harness files.

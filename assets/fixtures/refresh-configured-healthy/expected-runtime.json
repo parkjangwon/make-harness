@@ -22,5 +22,8 @@
     "communication_tone",
     "stack_summary",
     "environment"
-  ]
+  ],
+  "confirmed_fields": [],
+  "last_audit_at": null,
+  "last_validated_at": null
 }

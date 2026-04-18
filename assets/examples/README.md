@@ -15,5 +15,8 @@ They are reference outputs that make the contract shape easier to understand.
 ## Example set
 
 - `legacy-webapp-healthy.md`: a representative healthy harness for a legacy web application
-- `legacy-webapp-before-after.md`: a compact before/after showing why the harness structure matters
+- `legacy-webapp-before-after.md`: a before/after showing why the contract/runtime split matters
+- `legacy-webapp-rollout.md`: an end-to-end adoption example for an existing repository
+- `mock-interview-junior-developer.md`: a junior-friendly setup transcript showing safe defaults and low-pressure guidance
+- `mock-interview-senior-developer.md`: a senior-friendly setup transcript showing precise overrides without changing the core harness model
 - `social-preview.png`: a ready-to-upload GitHub social preview image for this repository

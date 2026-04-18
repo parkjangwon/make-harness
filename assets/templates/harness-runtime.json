@@ -1,0 +1,79 @@
+{
+  "harness_version": 2,
+  "_file_role": "volatile_runtime_state",
+  "_gitignore_note": "This file is runtime-only. Add harness-runtime.json to .gitignore in shared repositories.",
+  "_volatile_fields": [
+    "run_mode",
+    "bootstrap_status",
+    "interview_step",
+    "pending_fields",
+    "confirmed_fields",
+    "validated_shared_fields",
+    "drift_reasons",
+    "sync_status",
+    "entry_files_sync",
+    "last_audit_at",
+    "last_validated_at",
+    "language_detection"
+  ],
+  "run_mode": "bootstrap",
+  "bootstrap_status": "pending_interview",
+  "interview_step": "communication_language",
+  "pending_fields": [
+    "communication_language",
+    "project_type",
+    "definition_of_done",
+    "change_posture",
+    "change_guardrails",
+    "verification_policy",
+    "approval_policy",
+    "project_commands",
+    "project_constraints",
+    "communication_tone",
+    "stack_summary",
+    "environment"
+  ],
+  "confirmed_fields": [],
+  "validated_shared_fields": [],
+  "drift_reasons": [],
+  "sync_status": "unvalidated",
+  "entry_files_sync": {
+    "status": "unvalidated",
+    "entry_files": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md"
+    ],
+    "required_shared_fields": [
+      "communication_language",
+      "project_type",
+      "definition_of_done",
+      "change_posture",
+      "change_guardrails",
+      "verification_policy",
+      "approval_policy",
+      "project_commands",
+      "project_constraints",
+      "communication_tone",
+      "stack_summary",
+      "environment"
+    ],
+    "last_checked_at": null,
+    "notes": []
+  },
+  "language_detection": {
+    "strategy": "detect_first_then_confirm",
+    "repo_signal": "unknown",
+    "confidence": "low"
+  },
+  "managed_files": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "PROJECT_HARNESS.md",
+    "harness-contract.json",
+    "harness-runtime.json"
+  ],
+  "last_audit_at": null,
+  "last_validated_at": null
+}

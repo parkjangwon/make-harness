@@ -1,18 +1,14 @@
 {
-  "phase": "post_repair_validation",
+  "phase": "post_classification",
   "run_mode": "repair",
   "bootstrap_status": "configured",
   "interview_step": "complete",
-  "sync_status": "healthy",
+  "sync_status": "drifted",
   "entry_files_sync": {
-    "status": "healthy"
+    "status": "drifted"
   },
   "pending_fields": [],
-  "confirmed_fields": [],
-  "drift_reasons": [
-    "state_invariant_broken"
-  ],
-  "validated_shared_fields": [
+  "confirmed_fields": [
     "communication_language",
     "project_type",
     "definition_of_done",
@@ -25,5 +21,11 @@
     "communication_tone",
     "stack_summary",
     "environment"
-  ]
+  ],
+  "validated_shared_fields": [],
+  "drift_reasons": [
+    "entry_file_contract_mismatch"
+  ],
+  "last_audit_at": null,
+  "last_validated_at": null
 }

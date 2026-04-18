@@ -1,0 +1,42 @@
+{
+  "name": "bootstrap-empty-project-stack-discovery",
+  "purpose": "When the project is effectively empty, the interview should ask a few setup-defining questions up front because there is no codebase to inspect.",
+  "initial_conditions": {
+    "managed_files_present": [],
+    "bootstrap_status": "pending_interview",
+    "pending_fields": [
+      "communication_language",
+      "project_type",
+      "project_commands",
+      "stack_summary",
+      "environment"
+    ],
+    "notes": [
+      "No meaningful code or tool config exists yet.",
+      "The first interview must discover package_manager, runtime, and stack choices from the developer."
+    ],
+    "package_manager": "unknown",
+    "runtime": "unknown"
+  },
+  "expected": {
+    "run_mode": "bootstrap",
+    "bootstrap_status": "pending_interview",
+    "sync_status": "unvalidated",
+    "checks": [
+      "Blank projects should ask more up front than existing repositories.",
+      "The interview should explicitly discover package manager and runtime because there is no code to infer them from."
+    ],
+    "interview_mode": "setup_discovery",
+    "next_question_field": "communication_language",
+    "next_question_style": "open",
+    "discovery_fields": [
+      "communication_language",
+      "project_type",
+      "stack_summary",
+      "runtime",
+      "package_manager",
+      "project_commands"
+    ],
+    "skip_fields": []
+  }
+}

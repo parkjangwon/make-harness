@@ -1,0 +1,49 @@
+{
+  "harness_version": 2,
+  "shared_contract_fields": [
+    "communication_language",
+    "project_type",
+    "definition_of_done",
+    "change_posture",
+    "change_guardrails",
+    "verification_policy",
+    "approval_policy",
+    "project_commands",
+    "project_constraints",
+    "communication_tone",
+    "stack_summary",
+    "environment"
+  ],
+  "communication_language": "ko",
+  "project_type": "legacy",
+  "change_posture": "conservative",
+  "definition_of_done": "working_code_verified",
+  "change_guardrails": [
+    "avoid broad rewrites without approval",
+    "preserve existing routes and API responses"
+  ],
+  "verification_policy": "required",
+  "approval_policy": "explicit_for_risky_changes",
+  "project_commands": {
+    "test": "pnpm test",
+    "lint": "pnpm lint",
+    "build": "pnpm build",
+    "dev": "pnpm dev"
+  },
+  "project_constraints": [
+    "keep API responses backward compatible"
+  ],
+  "communication_tone": "concise",
+  "stack_summary": [
+    "react",
+    "vite",
+    "node"
+  ],
+  "environment": {
+    "development": "local workstation",
+    "runtime": "node",
+    "primary_os": "macOS"
+  },
+  "change_history": [],
+  "notes": []
+}

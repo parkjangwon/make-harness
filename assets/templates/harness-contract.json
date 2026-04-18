@@ -1,0 +1,42 @@
+{
+  "harness_version": 2,
+  "_file_role": "durable_project_contract",
+  "_commit_policy": "Commit this file. It contains only durable project defaults and guardrails.",
+  "shared_contract_fields": [
+    "communication_language",
+    "project_type",
+    "definition_of_done",
+    "change_posture",
+    "change_guardrails",
+    "verification_policy",
+    "approval_policy",
+    "project_commands",
+    "project_constraints",
+    "communication_tone",
+    "stack_summary",
+    "environment"
+  ],
+  "communication_language": "unknown",
+  "project_type": "unknown",
+  "change_posture": "unknown",
+  "definition_of_done": "unknown",
+  "change_guardrails": [],
+  "verification_policy": "unknown",
+  "approval_policy": "unknown",
+  "project_commands": {
+    "test": "unknown",
+    "lint": "unknown",
+    "build": "unknown",
+    "dev": "unknown"
+  },
+  "project_constraints": [],
+  "communication_tone": "unknown",
+  "stack_summary": [],
+  "environment": {
+    "development": "unknown",
+    "runtime": "unknown",
+    "primary_os": "unknown"
+  },
+  "change_history": [],
+  "notes": []
+}

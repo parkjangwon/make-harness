@@ -1,0 +1,30 @@
+{
+  "phase": "resume_interview",
+  "run_mode": "refresh",
+  "bootstrap_status": "interview_in_progress",
+  "interview_step": "approval_policy",
+  "sync_status": "unvalidated",
+  "entry_files_sync": {
+    "status": "unvalidated"
+  },
+  "pending_fields": [
+    "approval_policy",
+    "project_commands",
+    "project_constraints",
+    "communication_tone",
+    "stack_summary",
+    "environment"
+  ],
+  "confirmed_fields": [
+    "communication_language",
+    "project_type",
+    "definition_of_done",
+    "change_posture",
+    "change_guardrails",
+    "verification_policy"
+  ],
+  "validated_shared_fields": [],
+  "drift_reasons": [],
+  "last_audit_at": null,
+  "last_validated_at": null
+}

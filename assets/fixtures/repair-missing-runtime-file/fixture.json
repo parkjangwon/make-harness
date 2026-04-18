@@ -1,0 +1,30 @@
+{
+  "name": "repair-missing-runtime-file",
+  "purpose": "If the durable contract exists but the volatile runtime file is missing, the run should classify as repair without changing the project-local contract model.",
+  "initial_conditions": {
+    "managed_files_present": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md",
+      "PROJECT_HARNESS.md",
+      "harness-contract.json"
+    ],
+    "bootstrap_status": "configured",
+    "pending_fields": [],
+    "canonical_sources_aligned": true,
+    "entry_files_aligned": true,
+    "entry_files_thin": true
+  },
+  "expected": {
+    "run_mode": "repair",
+    "sync_status": "drifted",
+    "entry_files_sync_status": "healthy",
+    "drift_reasons": [
+      "missing_managed_file"
+    ],
+    "checks": [
+      "Repair should recreate the missing runtime file without redefining durable defaults.",
+      "Canonical durable sources should remain authoritative."
+    ]
+  }
+}

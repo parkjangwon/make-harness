@@ -1,0 +1,59 @@
+{
+  "name": "resume-interview-after-partial-confirmation",
+  "purpose": "If the interview was interrupted after a few durable defaults were confirmed, the next run should resume from the recorded interview step instead of starting over.",
+  "initial_conditions": {
+    "managed_files_present": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md",
+      "PROJECT_HARNESS.md",
+      "harness-contract.json",
+      "harness-runtime.json"
+    ],
+    "bootstrap_status": "interview_in_progress",
+    "pending_fields": [
+      "approval_policy",
+      "project_commands",
+      "project_constraints",
+      "communication_tone",
+      "stack_summary",
+      "environment"
+    ],
+    "confirmed_fields": [
+      "communication_language",
+      "project_type",
+      "definition_of_done",
+      "change_posture",
+      "change_guardrails",
+      "verification_policy"
+    ],
+    "repo_language_signal": "korean_readme",
+    "repo_language_confidence": "high",
+    "canonical_sources_present": true,
+    "entry_files_present": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md"
+    ]
+  },
+  "expected": {
+    "run_mode": "refresh",
+    "bootstrap_status": "interview_in_progress",
+    "interview_step": "approval_policy",
+    "sync_status": "unvalidated",
+    "entry_files_sync_status": "unvalidated",
+    "checks": [
+      "The next question should resume from approval_policy.",
+      "Previously confirmed fields should stay confirmed instead of being re-asked as open questions.",
+      "Temporary inference should not silently replace explicit confirmed answers."
+    ],
+    "interview_mode": "repo_first_gap_fill",
+    "next_question_field": "approval_policy",
+    "next_question_style": "open",
+    "discovery_fields": [],
+    "skip_fields": [
+      "runtime",
+      "package_manager"
+    ]
+  }
+}

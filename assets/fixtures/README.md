@@ -1,33 +1,31 @@
-# Harness Fixtures
+# Fixtures
 
-These fixtures are small contract-level validation cases for `make-harness`.
+Fixtures model three things separately:
 
-They are intentionally simple. The goal is not to simulate a full runtime, but to pin down the minimum cases that should stay stable as the skill evolves.
+- repository conditions in `fixture.json`
+- expected durable contract effects (when needed) in `expected-contract.json`
+- expected volatile runtime state in `expected-runtime.json`
 
-## What these fixtures validate
+Current fixture coverage includes:
 
-- run classification: `bootstrap`, `refresh`, `repair`
-- fixed shared contract schema
-- entry-file synchronization expectations
-- invariant handling
-- deterministic drift reasons
+- empty bootstrap
+- blank-project stack discovery bootstrap
+- detect-first language bootstrap
+- conflicting-signals bootstrap
+- interrupted interview resume
+- healthy refresh
+- entry-file drift repair
+- missing managed file repair
+- broken runtime invariant repair
 
-## Fixture files
+For interview-heavy scenarios, `fixture.json` can now pin deterministic planner expectations such as:
 
-- `fixture.json`: scenario description, expected classification, and behavioral checks
-- `expected-state.json`: minimum machine-readable state snapshot the harness should converge to for that scenario
+- `interview_mode`
+- `next_question_field`
+- `next_question_style`
+- `discovery_fields`
+- `skip_fields`
 
-## How to use them
+`python tools/validate-fixtures.py` cross-checks those expectations against `tools/interview_planner.py`, so repo-first vs setup-discovery behavior is mechanically enforced instead of remaining prose-only.
 
-- Read a fixture's `fixture.json`.
-- Compare the resulting harness state against `expected-state.json`.
-- Compare the current skill behavior against the fixture's expected classification and checks.
-- If the skill changes, update fixtures only when the contract intentionally changes.
-- If the contract did not intentionally change, the fixture should still hold.
-
-## Fixture philosophy
-
-- Keep fixtures small and readable.
-- Prefer explicit expected outcomes over long prose.
-- Cover the core trust cases before edge cases.
-- Treat these fixtures as a stability harness for the harness itself.
+The goal is not to simulate every repository, but to keep the contract model, interview branching, and repair rules concrete enough to audit.

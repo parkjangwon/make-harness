@@ -7,7 +7,8 @@
       "CLAUDE.md",
       "GEMINI.md",
       "PROJECT_HARNESS.md",
-      "harness-state.json"
+      "harness-contract.json",
+      "harness-runtime.json"
     ],
     "bootstrap_status": "configured",
     "pending_fields": [
@@ -25,7 +26,7 @@
     "sync_status": "drifted",
     "entry_files_sync_status": "healthy",
     "drift_reasons": [
-      "state_invariant_broken"
+      "runtime_invariant_broken"
     ],
     "checks": [
       "Configured state must not keep any field in both pending and confirmed.",

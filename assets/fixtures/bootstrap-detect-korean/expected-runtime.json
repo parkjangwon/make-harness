@@ -1,0 +1,23 @@
+{
+  "phase": "post_classification",
+  "run_mode": "bootstrap",
+  "bootstrap_status": "pending_interview",
+  "interview_step": "communication_language",
+  "pending_fields": [
+    "communication_language"
+  ],
+  "confirmed_fields": [],
+  "validated_shared_fields": [],
+  "drift_reasons": [],
+  "sync_status": "unvalidated",
+  "entry_files_sync": {
+    "status": "unvalidated"
+  },
+  "language_detection": {
+    "strategy": "detect_first_then_confirm",
+    "repo_signal": "korean_readme",
+    "confidence": "high"
+  },
+  "last_audit_at": null,
+  "last_validated_at": null
+}

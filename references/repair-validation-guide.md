@@ -7,10 +7,10 @@ Use this guide when the harness is classified as `repair`, or when final validat
 Treat the run as `repair` when:
 
 - a managed file is missing
-- a shared contract field disagrees across canonical sources
+- a shared contract field disagrees across canonical durable sources
 - an entry file disagrees with the shared contract
 - an entry file is no longer thin
-- a state invariant is broken
+- a runtime invariant is broken
 
 ## State invariants
 
@@ -22,25 +22,10 @@ Treat the run as `repair` when:
 
 ## Deterministic repair order
 
-1. Normalize `harness-state.json`
-2. Repair `PROJECT_HARNESS.md`
-3. Re-project `AGENTS.md`
-4. Re-project `CLAUDE.md`
-5. Re-project `GEMINI.md`
-6. Validate shared contract fields and sync metadata
-
-Canonical sources stay authoritative during repair.
-Do not infer the contract from a drifted entry file.
-
-## Final validation
-
-Before claiming the harness is healthy:
-
-- confirm that all managed files exist
-- confirm that canonical sources agree on the shared contract schema
-- confirm that entry files are thin and aligned
-- update `validated_shared_fields`
-- update `drift_reasons`
-- update sync metadata
-
-Use [assets/healthy-checklist.md](../assets/healthy-checklist.md) as the final healthy gate.
+1. Normalize `harness-contract.json`
+2. Normalize `harness-runtime.json`
+3. Repair `PROJECT_HARNESS.md`
+4. Re-project `AGENTS.md`
+5. Re-project `CLAUDE.md`
+6. Re-project `GEMINI.md`
+7. Validate shared contract fields, sync metadata, and deterministic interview-plan expectations for interview-heavy fixtures
