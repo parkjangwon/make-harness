@@ -51,6 +51,7 @@ make-harness/
 │   ├── openai.yaml
 │   └── gemini.yaml
 ├── tools/
+│   ├── apply-harness.py
 │   ├── audit-harness.py
 │   ├── interview_planner.py
 │   └── validate-fixtures.py
@@ -156,6 +157,16 @@ python tools/audit-harness.py /path/to/project
 ```
 
 This verifies the file set, contract/runtime split, required `PROJECT_HARNESS.md` sections, entry-file thinness, and a few critical runtime invariants.
+
+## Deterministic projection generator
+
+Run to materialize `PROJECT_HARNESS.md`, `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` directly from `harness-contract.json` and `harness-runtime.json`:
+
+```text
+python tools/apply-harness.py /path/to/project
+```
+
+This is the smallest execution layer in the repo: the LLM can decide the durable contract, but projection files no longer need to be handwritten.
 
 Example success output:
 

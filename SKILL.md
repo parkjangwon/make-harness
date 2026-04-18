@@ -21,6 +21,7 @@ Create, update, or repair these project-local files:
 - `harness-runtime.json`
 
 Template sources live in [assets/templates](assets/templates).
+Use [tools/apply-harness.py](tools/apply-harness.py) to deterministically regenerate the projection files from the contract/runtime pair.
 
 ## Core behavior
 
@@ -102,6 +103,7 @@ After bootstrap, update, or repair, the target project should have:
 - Healthy checklist: [assets/healthy-checklist.md](assets/healthy-checklist.md)
 - Sample output: [assets/examples](assets/examples)
 - Local audit tool: [tools/audit-harness.py](tools/audit-harness.py) — checks managed files, `PROJECT_HARNESS.md` structure, entry thinness, and runtime invariants
+- Deterministic projection generator: [tools/apply-harness.py](tools/apply-harness.py) — regenerates `PROJECT_HARNESS.md`, `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` from the canonical contract/runtime files
 - Positioning: [docs/positioning.md](docs/positioning.md)
 - Contributing: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Optional UI metadata: [agents/openai.yaml](agents/openai.yaml), [agents/gemini.yaml](agents/gemini.yaml)

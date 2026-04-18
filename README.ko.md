@@ -51,6 +51,7 @@ make-harness/
 │   ├── openai.yaml
 │   └── gemini.yaml
 ├── tools/
+│   ├── apply-harness.py
 │   ├── audit-harness.py
 │   ├── interview_planner.py
 │   └── validate-fixtures.py
@@ -152,6 +153,16 @@ python tools/audit-harness.py /path/to/project
 ```
 
 이 명령은 LLM 없이도 파일 구성, contract/runtime 분리, 엔트리 파일 두께, 핵심 runtime invariant를 검사합니다.
+
+## Deterministic projection generator
+
+`harness-contract.json`과 `harness-runtime.json`에서 바로 `PROJECT_HARNESS.md`, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`를 기계적으로 생성하려면 다음을 실행하세요:
+
+```text
+python tools/apply-harness.py /path/to/project
+```
+
+이 도구는 리포 안에서 가장 작은 실행 계층이다. LLM이 durable contract를 결정하더라도 projection file은 손으로 다시 쓰지 않게 해준다.
 
 성공 예시:
 

@@ -163,6 +163,15 @@ def test_readme_documents_audit_success_and_failure_examples():
     assert "missing managed files" in readme
 
 
+def test_docs_reference_deterministic_projection_generator():
+    readme = (ROOT / "README.md").read_text()
+    skill = (ROOT / "SKILL.md").read_text()
+
+    assert "python tools/apply-harness.py /path/to/project" in readme
+    assert "Deterministic projection generator" in readme
+    assert "tools/apply-harness.py" in skill
+
+
 def test_ci_workflow_exists_and_runs_core_checks():
     workflow = ROOT / ".github" / "workflows" / "validate.yml"
     assert workflow.exists()
