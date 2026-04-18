@@ -12,6 +12,7 @@
     "approval_policy",
     "project_commands",
     "project_constraints",
+    "rule_strengths",
     "communication_tone",
     "stack_summary",
     "environment"
@@ -30,6 +31,13 @@
     "dev": "unknown"
   },
   "project_constraints": [],
+  "rule_strengths": {
+    "change_guardrails": "guided",
+    "verification_policy": "guided",
+    "approval_policy": "guided",
+    "project_constraints": "enforced",
+    "communication_tone": "advisory"
+  },
   "communication_tone": "unknown",
   "stack_summary": [],
   "environment": {

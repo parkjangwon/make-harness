@@ -83,11 +83,15 @@ make-harness/
 - `approval_policy`
 - `project_commands`
 - `project_constraints`
+- `rule_strengths`
 - `communication_tone`
 - `stack_summary`
 - `environment`
 
+`rule_strengths` is the minimal enforcement layer for the contract. Use it to say whether a durable rule is advisory, guided, or enforced without turning the harness into a heavy execution framework.
+
 ## Modes
+
 
 - `bootstrap`: no harness yet
 - `update`: healthy harness -> update from the same `/make-harness` command

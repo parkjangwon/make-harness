@@ -117,6 +117,21 @@ def test_validator_rejects_wrong_contract_and_runtime_file_roles():
     assert any("runtime _file_role" in error for error in errors)
 
 
+def test_validator_rejects_invalid_rule_strengths_shape_and_values():
+    module = load_validator_module()
+    contract = json.loads((TEMPLATES / "harness-contract.json").read_text())
+
+    contract["rule_strengths"] = {
+        "approval_policy": "strictest",
+        "verification_policy": "guided",
+    }
+
+    errors = module.check_contract_runtime_alignment(contract, {}, "unit-test")
+
+    assert any("rule_strengths must define exactly" in error for error in errors)
+    assert any("invalid rule strength" in error for error in errors)
+
+
 def test_refresh_fixture_includes_expected_contract_example():
     expected_contract = ROOT / "assets" / "fixtures" / "refresh-configured-healthy" / "expected-contract.json"
     assert expected_contract.exists()
@@ -126,6 +141,7 @@ def test_refresh_fixture_includes_expected_contract_example():
     assert contract["communication_language"] == "ko"
     assert contract["project_type"] == "legacy"
     assert contract["project_commands"]["test"] == "pnpm test"
+    assert contract["rule_strengths"]["verification_policy"] == "enforced"
     assert "shared_contract_fields" in contract
 
 

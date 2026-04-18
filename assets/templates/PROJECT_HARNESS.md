@@ -35,9 +35,16 @@ These fields must stay synchronized across `PROJECT_HARNESS.md` and `harness-con
 - `approval_policy`
 - `project_commands`
 - `project_constraints`
+- `rule_strengths`
 - `communication_tone`
 - `stack_summary`
 - `environment`
+
+`rule_strengths` is the minimal enforcement map for the durable contract:
+
+- `advisory`: remember and prefer this rule, but do not treat it as a hard gate
+- `guided`: use this as the default path and call out exceptions explicitly
+- `enforced`: do not treat the work as complete unless the rule is satisfied or explicitly overridden
 
 ## Runtime state fields
 

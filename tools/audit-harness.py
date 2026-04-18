@@ -31,10 +31,19 @@ SHARED_CONTRACT_FIELDS = [
     'approval_policy',
     'project_commands',
     'project_constraints',
+    'rule_strengths',
     'communication_tone',
     'stack_summary',
     'environment',
 ]
+RULE_STRENGTH_FIELDS = [
+    'change_guardrails',
+    'verification_policy',
+    'approval_policy',
+    'project_constraints',
+    'communication_tone',
+]
+VALID_RULE_STRENGTHS = {'advisory', 'guided', 'enforced'}
 CONTRACT_ALLOWED_META_FIELDS = {
     'harness_version',
     '_file_role',
@@ -125,6 +134,18 @@ def _check_contract(contract: dict, errors: list[str]) -> None:
     missing_contract_fields = sorted(set(SHARED_CONTRACT_FIELDS) - set(contract))
     if missing_contract_fields:
         errors.append(f'harness-contract.json missing required contract field(s): {missing_contract_fields}')
+
+    rule_strengths = contract.get('rule_strengths')
+    if not isinstance(rule_strengths, dict):
+        errors.append('harness-contract.json rule_strengths must be an object')
+    else:
+        if sorted(rule_strengths) != sorted(RULE_STRENGTH_FIELDS):
+            errors.append(f'harness-contract.json rule_strengths must define exactly {RULE_STRENGTH_FIELDS}')
+        invalid_strengths = {
+            field: value for field, value in rule_strengths.items() if value not in VALID_RULE_STRENGTHS
+        }
+        if invalid_strengths:
+            errors.append(f'harness-contract.json rule_strengths contains invalid rule strength values: {invalid_strengths}')
 
     leaked_runtime_fields = sorted((set(contract) - set(SHARED_CONTRACT_FIELDS) - CONTRACT_ALLOWED_META_FIELDS) & RUNTIME_REQUIRED_FIELDS)
     if leaked_runtime_fields:

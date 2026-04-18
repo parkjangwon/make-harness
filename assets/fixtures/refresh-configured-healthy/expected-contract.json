@@ -10,6 +10,7 @@
     "approval_policy",
     "project_commands",
     "project_constraints",
+    "rule_strengths",
     "communication_tone",
     "stack_summary",
     "environment"
@@ -33,6 +34,13 @@
   "project_constraints": [
     "keep API responses backward compatible"
   ],
+  "rule_strengths": {
+    "change_guardrails": "guided",
+    "verification_policy": "enforced",
+    "approval_policy": "enforced",
+    "project_constraints": "enforced",
+    "communication_tone": "advisory"
+  },
   "communication_tone": "concise",
   "stack_summary": [
     "react",

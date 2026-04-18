@@ -16,6 +16,7 @@ QUESTION_ORDER = [
     "approval_policy",
     "project_commands",
     "project_constraints",
+    "rule_strengths",
     "communication_tone",
     "stack_summary",
     "environment",

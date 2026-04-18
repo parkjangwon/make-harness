@@ -22,6 +22,7 @@ SHARED_CONTRACT_FIELDS = [
     "approval_policy",
     "project_commands",
     "project_constraints",
+    "rule_strengths",
     "communication_tone",
     "stack_summary",
     "environment",
@@ -49,6 +50,14 @@ VALID_LANGUAGE_CONFIDENCE = {"low", "medium", "high"}
 EXPECTED_CONTRACT_FILE_ROLE = "durable_project_contract"
 EXPECTED_RUNTIME_FILE_ROLE = "volatile_runtime_state"
 EXPECTED_HARNESS_VERSION = 2
+RULE_STRENGTH_FIELDS = [
+    "change_guardrails",
+    "verification_policy",
+    "approval_policy",
+    "project_constraints",
+    "communication_tone",
+]
+VALID_RULE_STRENGTHS = {"advisory", "guided", "enforced"}
 FIXTURE_REQUIRED_KEYS = {"name", "purpose", "initial_conditions", "expected"}
 INITIAL_CONDITIONS_ALLOWED_KEYS = {
     "managed_files_present",
@@ -201,6 +210,17 @@ def check_contract_runtime_alignment(contract: dict, runtime: dict, fixture_name
         errors.append(f"[{fixture_name}] invalid sync_status: {runtime.get('sync_status')!r}")
     if contract.get('shared_contract_fields') != SHARED_CONTRACT_FIELDS:
         errors.append(f"[{fixture_name}] contract shared_contract_fields must exactly match the canonical ordered field list")
+    rule_strengths = contract.get("rule_strengths")
+    if not isinstance(rule_strengths, dict):
+        errors.append(f"[{fixture_name}] contract rule_strengths must be an object")
+    else:
+        if sorted(rule_strengths) != sorted(RULE_STRENGTH_FIELDS):
+            errors.append(f"[{fixture_name}] contract rule_strengths must define exactly {RULE_STRENGTH_FIELDS}")
+        invalid_strengths = {
+            field: value for field, value in rule_strengths.items() if value not in VALID_RULE_STRENGTHS
+        }
+        if invalid_strengths:
+            errors.append(f"[{fixture_name}] contract rule_strengths contains invalid rule strength values: {invalid_strengths}")
     if '_volatile_fields' in runtime and runtime.get('_volatile_fields') != EXPECTED_VOLATILE_FIELDS:
         errors.append(f"[{fixture_name}] runtime _volatile_fields must exactly match the canonical ordered runtime field list")
     return errors

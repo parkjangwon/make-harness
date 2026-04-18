@@ -57,6 +57,22 @@ def test_audit_repository_flags_missing_project_harness_sections(tmp_path):
     assert any("PROJECT_HARNESS.md missing required section" in error for error in errors)
 
 
+def test_audit_repository_flags_invalid_rule_strengths(tmp_path):
+    module = load_audit_module()
+    repo = make_sample_repo(tmp_path)
+    contract_path = repo / "harness-contract.json"
+    contract = json.loads(contract_path.read_text())
+    contract["rule_strengths"] = {
+        "approval_policy": "strictest",
+        "verification_policy": "guided",
+    }
+    contract_path.write_text(json.dumps(contract, indent=2) + "\n")
+
+    errors = module.audit_repository(repo)
+
+    assert any("rule_strengths" in error for error in errors)
+
+
 def test_audit_repository_flags_thick_entry_file(tmp_path):
     module = load_audit_module()
     repo = make_sample_repo(tmp_path)

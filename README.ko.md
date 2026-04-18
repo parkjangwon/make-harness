@@ -83,11 +83,15 @@ make-harness/
 - `approval_policy`
 - `project_commands`
 - `project_constraints`
+- `rule_strengths`
 - `communication_tone`
 - `stack_summary`
 - `environment`
 
+`rule_strengths`는 계약의 최소 enforcement layer야. 각 durable rule이 advisory / guided / enforced 중 어느 강도로 다뤄져야 하는지 표현하되, 하네스를 무거운 실행 프레임워크로 키우지는 않는다.
+
 ## 동작 모드
+
 
 - `bootstrap`: 하네스가 아직 없음
 - `update`: healthy 하네스면 같은 `/make-harness` 명령에서 보강/수정 모드로 들어감
