@@ -2,9 +2,9 @@
 
 <img width="1000" height="550" alt="make-harness" src="https://github.com/user-attachments/assets/e68f3bdd-d549-4158-9f17-5a3111f3c850" />
 
-`make-harness`는 `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`가 서로 drift 나는 문제를 줄이기 위한 로컬 하네스 스킬이다.
+`make-harness`는 각 리포지토리에 프로젝트 로컬 AI 하네스를 설치하고 유지하는 스킬이다.
 
-리포마다 durable contract 하나를 두고, 그 계약에서 thin projection 파일을 다시 만들고, 실제로 healthy 상태인지까지 점검한다.
+하나의 durable contract를 기준으로 프로젝트 규칙을 잡고, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`를 thin projection으로 생성·동기화하며, 하네스가 깨지지 않았는지도 검사한다.
 
 영문 버전: [README.md](README.md)
 

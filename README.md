@@ -2,9 +2,9 @@
 
 <img width="1000" height="550" alt="make-harness" src="https://github.com/user-attachments/assets/e68f3bdd-d549-4158-9f17-5a3111f3c850" />
 
-`make-harness` stops root-level agent instructions from drifting across `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md`.
+`make-harness` installs and maintains a project-local AI harness for each repository.
 
-It gives a repository one durable contract, regenerates thin projection files from that contract, and checks that the harness is still healthy before you trust it.
+It uses one durable contract as the source of truth for project rules, generates and syncs thin `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` projections from that contract, and checks whether the harness is still healthy.
 
 Korean version: [README.ko.md](README.ko.md)
 
