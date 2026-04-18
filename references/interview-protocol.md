@@ -270,6 +270,37 @@ These should feel like confirmation, not configuration.
 - verification policy: "기본 검증은 `npm test`와 `npm run lint` 기준으로 잡을까?"
 - constraints: "코드만 보고는 안 보이는 제약이 있으면 한두 가지만 알려줘. 잘 모르겠으면 지금은 비워두고 나중에 보강해도 돼."
 
+## Minimal security interview items
+
+Keep this light. The harness should capture project-local security guardrails, not become a full AppSec framework.
+
+Ask only the minimum durable security questions that actually affect how an agent should change code in this repository:
+
+1. sensitive areas
+- ask whether changes touching auth, permissions, secrets, payments, encryption, or public API exposure need stricter confirmation
+- store durable answers mainly in `change_guardrails` and, when approval strictness changes, in `approval_policy`
+
+2. secrets and unsafe debug patterns
+- ask whether any files or values must never be committed, and whether patterns like hardcoded secrets or debug backdoors are explicitly forbidden
+- for TLS verification, do not impose a blanket prohibition on all exceptions: ask whether configuration-based exception paths are allowed for specific environments or compatibility cases, and require that any configuration-based TLS exception be explicit, reviewable, and never silently enabled by default
+- store these in `project_constraints` and `change_guardrails`
+
+3. security verification commands
+- ask whether security verification commands are required when touching sensitive code, such as `bandit`, `semgrep`, `npm audit`, or repo-specific checks
+- store the requirement in `verification_policy` and the exact commands in `project_commands` notes or command entries
+
+Recommended wording for existing repositories:
+- "인증, 권한, secret, 결제, 외부 공개 API 같은 민감 영역은 수정 전에 더 엄격하게 확인받아야 할까?"
+- "절대 커밋하면 안 되는 값이나 금지 패턴이 있을까? 예를 들면 실제 secret, 하드코딩 키, 디버그 백도어 같은 것들. TLS 검증 예외가 필요하다면 설정 기반으로만 허용하고 기본값은 안전하게 둘지 같이 정할 수 있어."
+- "보안 민감 코드를 건드릴 때 추가로 꼭 돌려야 하는 검증 명령이 있을까? 없으면 지금 검증 규칙 그대로 둘게."
+
+Recommended wording for blank projects:
+- "이 프로젝트에서 특히 민감한 영역이 예상되면 미리 알려줘. 예를 들면 auth, 권한, 결제, secret 처리 같은 것들."
+- "절대 허용하면 안 되는 보안 패턴이 있으면 지금 한두 가지만 정할까? 잘 모르겠으면 기본적으로 secret 하드코딩과 디버그 백도어 금지로 둘 수 있어. TLS 검증 예외가 필요하면 설정 기반으로만 켜고 끄도록 두는 식으로 정리할 수 있어."
+- "보안 관련 검증을 기본 검증에 같이 묶을까, 아니면 민감한 코드 변경 때만 추가로 돌릴까?"
+
+Do not create a separate heavyweight security framework section in the harness. Keep security as project-local security guardrails mapped into existing durable fields.
+
 ## Blank project question templates
 
 These should feel like setup decisions for a new project, not abstract policy forms.

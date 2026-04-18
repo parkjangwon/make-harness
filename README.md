@@ -70,6 +70,7 @@ make-harness/
 - only durable defaults and guardrails belong in the durable contract
 - drift should be visible and repairable
 - this skill should stay easy to compose with stronger frameworks and specialist skills
+- project-local security guardrails belong in the contract, but this is not a full AppSec framework
 
 ## Shared contract fields
 
@@ -106,6 +107,7 @@ The interview is intentionally bounded:
 - question budget targeting 5 or fewer explicit questions for common repos, while allowing denser blank-project discovery when needed
 - canonical normalization for free-form answers like change posture, approval policy, and verification policy
 - explicit resume and contradiction rules when `harness-runtime.json` shows an interrupted setup
+- minimal security interview items for security-sensitive areas, forbidden secret/debug patterns, configuration-based TLS exception rules, and security verification commands
 
 Details: [references/interview-guide.md](references/interview-guide.md), [references/interview-protocol.md](references/interview-protocol.md)
 

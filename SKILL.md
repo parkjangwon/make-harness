@@ -32,7 +32,7 @@ Template sources live in [assets/templates](assets/templates).
 6. Run the interview interactively, one question at a time.
 7. Detect likely collaboration language from repo signals first; confirm it when unclear instead of forcing an English-first opener.
 8. After each answer, reflect runtime progress into `harness-runtime.json` and durable answers into `harness-contract.json`.
-9. Confirm only durable project defaults and execution guardrails.
+9. Confirm only durable project defaults, project-local security guardrails, and execution guardrails.
 10. Keep `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` thin. Put the durable contract in `PROJECT_HARNESS.md`, then keep the entry files as pointers and summary rules.
 11. Validate that the managed harness files agree on the confirmed contract. If drift is detected, repair it before finishing.
 12. Record a concise change history entry whenever the durable project contract changes.

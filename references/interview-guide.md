@@ -11,6 +11,7 @@ The protocol now includes:
 - English companion templates for multilingual collaboration contexts
 - adaptive response modes such as precision mode, clarify mode, and safe-default mode
 - deterministic planner inputs that can be pinned in fixtures via `tools/interview_planner.py`
+- minimal security interview items for project-local security guardrails such as sensitive areas, secret-handling prohibitions, configuration-based TLS exception rules, and security verification commands
 
 ## Interview style
 

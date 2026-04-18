@@ -70,6 +70,7 @@ make-harness/
 - durable 계약에는 오래 유지할 기본값과 가드레일만 넣는다
 - drift는 보여야 하고 repair 가능해야 한다
 - 더 강한 프레임워크와 전문 스킬 옆에서 조용히 공존해야 한다
+- 프로젝트 로컬 보안 가드레일은 계약에 넣되, 전체 AppSec 프레임워크까지 떠안지는 않는다
 
 ## 공유 계약 필드
 
@@ -106,6 +107,7 @@ make-harness/
 - 일반적인 저장소에서는 명시 질문 5개 이하를 목표로 하되, 빈 프로젝트는 필요한 경우 더 촘촘히 물을 수 있음
 - change posture, approval policy, verification policy 같은 자유 응답을 canonical 값으로 정규화
 - `harness-runtime.json`이 중간 상태를 가리키면 resume 규칙과 contradiction 규칙 적용
+- 보안 민감 영역, 금지 secret/debug 패턴, 설정 기반 TLS 예외 규칙, 추가 보안 검증 명령처럼 꼭 필요한 최소 보안 인터뷰 항목 포함
 
 자세한 규칙은 [references/interview-guide.md](references/interview-guide.md), [references/interview-protocol.md](references/interview-protocol.md)를 참고하세요.
 
