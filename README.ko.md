@@ -60,7 +60,7 @@ Agent:
 - `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`는 얇은 projection으로 정렬된다
 - audit / completion check로 지금 harness가 healthy한지 검증할 수 있다
 
-## Install with skills.sh
+## `skills.sh`로 설치
 
 ```bash
 npx skills add parkjangwon/make-harness
@@ -191,7 +191,7 @@ python tools/audit-harness.py /path/to/project
 
 이 명령은 LLM 없이도 파일 구성, contract/runtime 분리, 엔트리 파일 두께, 핵심 runtime invariant를 검사합니다.
 
-## Deterministic projection generator
+## 결정적 projection 생성기
 
 `harness-contract.json`과 `harness-runtime.json`에서 바로 `PROJECT_HARNESS.md`, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`를 기계적으로 생성하려면 다음을 실행하세요:
 
@@ -201,7 +201,7 @@ python tools/apply-harness.py /path/to/project
 
 이 도구는 리포 안에서 가장 작은 실행 계층이다. LLM이 durable contract를 결정하더라도 projection file은 손으로 다시 쓰지 않게 해준다.
 
-## Completion gate
+## 완료 게이트
 
 하네스가 단순히 존재하는 수준이 아니라 실제로 완료 가능한 상태인지 확인하려면 다음을 실행하세요:
 
@@ -239,7 +239,7 @@ make-harness/
     └── repair-playbook.md
 ```
 
-## lightweight path-based guardrail smoke check
+## 가벼운 경로 기반 guardrail smoke check
 
 다음 명령으로 auth / 권한 / secret / 결제 / 암호화 / public API 영역을 건드리는 변경을 감지할 수 있다:
 
@@ -257,7 +257,7 @@ python tools/check-sensitive-change.py /path/to/project --base HEAD~1 --head HEA
 
 이 checker는 의도적으로 가볍다. 현재는 깊은 코드 분석기가 아니라 path-based smoke check다.
 
-## hooks and CI
+## hooks와 CI
 
 - CI는 이제 `audit-harness`, `check-harness-done`, diff-sensitive smoke check를 함께 실행한다.
 - 샘플 git hook은 `assets/templates/pre-commit-harness.sh`에 있다.

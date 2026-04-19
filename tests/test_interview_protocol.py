@@ -73,7 +73,7 @@ def test_interview_guide_mentions_dual_mode_strategy():
     assert "repo-first" in guide
     assert "user-facing question templates" in guide
     assert "default" in guide
-    assert "junior" in guide
+    assert "different experience levels and confidence levels" in guide
     assert "precision mode" in guide
     assert "safe-default mode" in guide
 
@@ -118,7 +118,7 @@ def test_interview_protocol_covers_three_levels_for_core_fields():
     assert "precision mode" in protocol
     assert "clarify mode" in protocol
     assert "safe-default mode" in protocol
-    assert "do not classify the user as junior or senior" in protocol
+    assert "do not classify the user into fixed personas" in protocol
     assert "adapt per answer, not per person label" in protocol
 
 

@@ -204,6 +204,16 @@ def test_protocol_redefines_boundary_fields_as_repo_local_rules_not_general_meth
     assert "Do not ask about TDD, branch strategy, code review loops, or sub-agent usage as durable contract state" in protocol
 
 
+def test_interview_docs_describe_answer_mode_adaptation_not_user_persona_classification():
+    protocol = (ROOT / "references" / "interview-protocol.md").read_text()
+    guide = (ROOT / "references" / "interview-guide.md").read_text()
+    examples = (ROOT / "assets" / "examples" / "README.md").read_text()
+
+    assert "do not classify the user into fixed personas" in protocol
+    assert "different experience levels and confidence levels" in guide
+    assert "personality classifier" in examples
+
+
 def test_examples_and_fixtures_describe_local_contract_collection_not_methodology_capture():
     fixtures = (ROOT / "assets" / "fixtures" / "README.md").read_text()
     examples = (ROOT / "assets" / "examples" / "README.md").read_text()
@@ -212,6 +222,16 @@ def test_examples_and_fixtures_describe_local_contract_collection_not_methodolog
     assert "not to encode a development methodology" in fixtures
     assert "local project rules" in examples
     assert "not workflow prescriptions" in examples
+
+
+def test_korean_readme_tracks_new_positioning_sections_and_koreanized_headings():
+    readme_ko = (ROOT / "README.ko.md").read_text()
+
+    assert "`skills.sh`로 설치" in readme_ko
+    assert "결정적 projection 생성기" in readme_ko
+    assert "완료 게이트" in readme_ko
+    assert "가벼운 경로 기반 guardrail smoke check" in readme_ko
+    assert "hooks와 CI" in readme_ko
 
 
 def test_readme_documents_audit_success_and_failure_examples():

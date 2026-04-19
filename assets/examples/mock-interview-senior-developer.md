@@ -1,6 +1,10 @@
-# Mock Interview: senior developer
+# Mock Interview: precision mode
 
-This example shows how the same `make-harness` one-time setup can stay precise for a senior developer without changing the underlying philosophy.
+This example shows how the same `make-harness` one-time setup can stay precise when the user gives exact overrides without changing the underlying philosophy.
+
+Legacy filename note:
+- the file name keeps the older `senior` label for compatibility
+- the interview behavior should be read as answer-mode adaptation, not user classification
 
 Goal:
 - confirm durable rules quickly
@@ -37,7 +41,7 @@ User: 위험한 변경만 먼저 확인받게 해주세요. 안전한 수정은 
 
 Agent: 좋아. 그 승인 기본값과 override 메모를 함께 유지할게.
 
-## Why this is good for seniors
+## Why this is good for precision mode
 
 - it respects repo-first inference
 - it keeps defaults visible but easy to override
@@ -47,5 +51,5 @@ Agent: 좋아. 그 승인 기본값과 override 메모를 함께 유지할게.
 
 ## Important note
 
-This is the same one-time setup skill as the junior example.
-The difference is that the senior path uses more precise overrides, not a different harness philosophy.
+This is the same one-time setup skill as the safe-default example.
+The difference is that the precision-mode path uses more precise overrides, not a different harness philosophy.

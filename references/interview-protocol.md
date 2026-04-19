@@ -243,7 +243,7 @@ Example:
 
 ## Adaptive response modes
 
-do not classify the user as junior or senior.
+do not classify the user into fixed personas.
 Instead, adapt per answer, not per person label.
 
 ### precision mode
@@ -351,7 +351,7 @@ Use this matrix when choosing the actual wording for each field.
 - high confidence -> confirmation wording
 - medium confidence -> short either/or confirmation wording
 - low confidence -> open-ended plain wording
-- for both senior and junior users, prefer two-step questioning: start with an easy default-offer question, then ask a more specific follow-up only if needed
+- across different experience levels, prefer two-step questioning: start with an easy default-offer question, then ask a more specific follow-up only if needed
 - if the user seems unsure, say: "잘 모르겠으면 내가 무난한 기본값을 먼저 제안할게"
 - if the interview is in English, say: "If you're not sure, I can suggest a safe default first"
 

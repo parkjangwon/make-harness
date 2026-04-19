@@ -12,7 +12,8 @@ def test_junior_mock_interview_example_exists_and_shows_safe_default_offers():
 
     text = path.read_text()
 
-    assert "junior developer" in text
+    assert "safe-default mode" in text
+    assert "Legacy filename note" in text
     assert "잘 모르겠으면" in text
     assert "기본값" in text
     assert "런타임은" in text
@@ -26,7 +27,8 @@ def test_senior_mock_interview_example_exists_and_shows_precision_controls():
 
     text = path.read_text()
 
-    assert "senior developer" in text
+    assert "precision mode" in text
+    assert "Legacy filename note" in text
     assert "default" in text
     assert "override" in text
     assert "approval" in text
@@ -42,5 +44,7 @@ def test_mock_examples_show_same_skill_with_different_depth_not_different_philos
 
     assert "one-time setup" in junior
     assert "one-time setup" in senior
+    assert "user classification" in junior
+    assert "user classification" in senior
     assert "repo-first" in junior or "setup-discovery" in junior
     assert "repo-first" in senior or "setup-discovery" in senior

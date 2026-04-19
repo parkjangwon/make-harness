@@ -22,7 +22,7 @@ The protocol now includes:
 - inspect the repository first, then ask only what is still unclear
 - use a repo-first strategy for an existing repository: infer first, then confirm
 - use a blank project strategy when there is no code yet: ask only the setup-defining questions needed to choose stack, runtime, and package manager
-- support both senior and junior developers: do not assume the user already knows every architectural choice
+- support users across different experience levels and confidence levels: do not assume the user already knows every architectural choice
 - when a choice may feel hard, offer a safe default first instead of forcing an immediate decision
 - prefer two-step questioning for harder topics: start with an easy default-offer question, then ask a more specific follow-up only if needed
 - detect likely collaboration language from repo signals first

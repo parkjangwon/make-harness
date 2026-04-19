@@ -18,6 +18,6 @@ They should be read as examples of local project rules, not workflow prescriptio
 - `legacy-webapp-healthy.md`: a representative healthy harness for a legacy web application
 - `legacy-webapp-before-after.md`: a before/after showing why the contract/runtime split matters
 - `legacy-webapp-rollout.md`: an end-to-end adoption example for an existing repository
-- `mock-interview-junior-developer.md`: a junior-friendly setup transcript showing safe defaults and low-pressure guidance
-- `mock-interview-senior-developer.md`: a senior-friendly setup transcript showing precise overrides without changing the core harness model
+- `mock-interview-junior-developer.md`: a safe-default setup transcript showing low-pressure guidance without turning the harness into a personality classifier
+- `mock-interview-senior-developer.md`: a precision-mode setup transcript showing explicit overrides without changing the core harness model
 - `social-preview.png`: a ready-to-upload GitHub social preview image for this repository
