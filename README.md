@@ -40,6 +40,36 @@ In practice, the first win is simple: less repeated setup chatter and fewer drif
 
 Common examples include teams mixing Claude Code, Codex, Gemini CLI, Cursor, or other agentic coding workflows.
 
+## Good-fit environments
+
+`make-harness` is especially useful when repository-local rules differ from project to project.
+
+Strong-fit environments include:
+
+- solution or service companies managing many client or product repositories with different repo-local defaults
+- teams mixing legacy repositories, new greenfield repositories, and security-sensitive services
+- organizations where multiple developers or AI tools touch the same repository over time
+- repos where approval rules, verification commands, or sensitive paths differ by project
+- long-lived repositories where repeated setup chatter and root-file drift keep coming back
+
+Lower-fit environments include:
+
+- disposable throwaway repositories
+- very short-lived experiments or PoCs
+- repos where no durable local rules are worth maintaining yet
+
+## Works well with stronger workflows
+
+`make-harness` is designed to compose with stronger workflow systems, not replace them.
+
+A good pairing looks like this:
+
+- `make-harness` owns the repository-local contract: defaults, commands, constraints, approval rules, and thin projection sync
+- stronger workflow tools such as ecc, superpowers, or other agent frameworks can still own planning, TDD, code review loops, and sub-agent coordination
+- the result is a cleaner split: upper layers decide how work gets executed, while `make-harness` keeps each repository's local rules stable
+
+This is usually a better fit than trying to force one global workflow onto every repository.
+
 ## What happens when you run `/make-harness`
 
 Typical flow:

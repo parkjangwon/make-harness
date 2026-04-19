@@ -194,6 +194,20 @@ def test_readme_and_positioning_describe_make_harness_as_local_contract_layer_no
     assert "superpowers" in coexistence
 
 
+def test_readmes_document_good_fit_environments_and_stronger_workflow_pairings():
+    readme = (ROOT / "README.md").read_text()
+    readme_ko = (ROOT / "README.ko.md").read_text()
+
+    assert "## Good-fit environments" in readme
+    assert "solution or service companies" in readme
+    assert "ecc, superpowers" in readme
+    assert "repository-local contract" in readme
+    assert "## 특히 잘 맞는 환경" in readme_ko
+    assert "솔루션/서비스 개발 회사" in readme_ko
+    assert "ecc, superpowers" in readme_ko
+    assert "저장소 로컬 계약" in readme_ko
+
+
 def test_protocol_redefines_boundary_fields_as_repo_local_rules_not_general_methodology():
     protocol = (ROOT / "references" / "interview-protocol.md").read_text()
 
