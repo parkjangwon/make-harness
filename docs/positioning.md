@@ -9,8 +9,24 @@ Its job is simple:
 - keep volatile runtime state separate
 - make drift visible and repairable
 
-It does not try to replace strong agent frameworks.
+It is a framework-agnostic local rule layer.
+It does not try to replace strong agent frameworks, workflow systems, or methodology packs.
 It is meant to stay small enough to compose with them.
+
+## What it is
+
+- a project-local harness
+- a durable contract bootstrap + maintenance tool
+- a thin projection sync tool
+- a local contract layer that keeps repository defaults reusable across AI tools
+
+## What it is not
+
+- a development methodology
+- an execution framework
+- an orchestration layer
+- a team operating system
+- a general-purpose way-of-working pack
 
 ## Who this is for
 

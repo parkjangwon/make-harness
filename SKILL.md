@@ -7,7 +7,7 @@ description: Use when the user wants to set up, install, audit, update, repair, 
 
 Use this skill when the user wants to set up, audit, update, or repair a project-local harness in the current repository.
 
-This skill is the bootstrapper and maintenance entrypoint. The actual project contract must live in the target project's local files, not in the skill itself.
+This skill is the bootstrapper and maintenance entrypoint for a repository-local durable contract. It is not a development methodology, not a team workflow engine, and not a framework-specific orchestration layer. The actual project contract must live in the target project's local files, not in the skill itself.
 
 ## What this skill manages
 

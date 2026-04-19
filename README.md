@@ -2,9 +2,11 @@
 
 <img width="1000" height="550" alt="make-harness" src="https://github.com/user-attachments/assets/e68f3bdd-d549-4158-9f17-5a3111f3c850" />
 
-`make-harness` installs and maintains a project-local AI harness for each repository.
+`make-harness` installs and maintains a project-local harness for each repository.
 
-It uses one durable contract as the source of truth for project rules, generates and syncs thin `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` projections from that contract, and checks whether the harness is still healthy.
+It is a durable contract bootstrap + maintenance tool: it captures repository-local rules, commands, constraints, and guardrails in one canonical contract, regenerates thin `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` projections from that contract, and checks whether the harness is still healthy.
+
+`make-harness` is not a development methodology, not an execution framework, and not an orchestration layer. It is a framework-agnostic local rule layer that stays small enough to compose with stronger workflow systems.
 
 Korean version: [README.ko.md](README.ko.md)
 
@@ -116,6 +118,17 @@ Managed files:
 - `environment`
 
 `rule_strengths` is the minimal enforcement layer for the contract. Use it to say whether a durable rule is advisory, guided, or enforced without turning the harness into a heavy execution framework.
+
+## Boundary fields: keep them local, not methodological
+
+Some fields can look broader than they really are. In `make-harness`, they must stay narrowly project-local:
+
+- `definition_of_done` = the repository's default completion expectation or local completion gate, not a universal development philosophy
+- `verification_policy` = the repository's default verification rule, not a statement about how all development should be done
+- `approval_policy` = the repository's confirmation rule for risky or sensitive changes, not a full team workflow policy
+- `change_posture` = a narrow local default for change scope and risk tolerance in this repository, not a general engineering philosophy
+
+If a rule is really about planning, TDD, branch strategy, code review loops, brainstorming, or sub-agent coordination, it belongs in a stronger workflow layer above `make-harness`, not in the durable harness contract.
 
 ## Modes
 

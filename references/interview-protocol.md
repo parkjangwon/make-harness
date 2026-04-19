@@ -161,17 +161,35 @@ Prefer a small stable set:
 
 ### `change_posture`
 
+`change_posture` is only a narrow local default for change scope in this repository.
+It is not a general engineering philosophy.
+
 - "웬만하면 보수적으로", "작게 가자", "큰 변경은 부담" -> `conservative`
 - "필요하면 과감하게 정리" -> `balanced`
 - "대대적으로 뜯어고쳐도 된다" -> `aggressive`
 
 ### `approval_policy`
 
+`approval_policy` is stored as the repository's confirmation rule for risky or sensitive changes.
+It is not a full team workflow policy.
+
 - "큰 변경은 먼저 물어봐", "위험한 건 승인 받고" -> `explicit_for_risky_changes`
 - "왠만한 건 그냥 진행해도 돼" -> `implicit_for_safe_changes`
 - "모든 변경 전에 확인" -> `explicit_for_all_changes`
 
+### `definition_of_done`
+
+`definition_of_done` is stored as a repo-local completion expectation or local completion gate.
+It is not a universal development philosophy.
+
+- "보통은 테스트/린트까지 통과하면 완료" -> repo-local completion expectation focused on the repository's default completion checks
+- "코드 변경이면 테스트/린트/타입체크, 문서 변경이면 수동 확인" -> keep the local completion gate narrow and store exceptions in notes if needed
+- avoid turning this field into a broad statement about how all work must be done across every situation
+
 ### `verification_policy`
+
+`verification_policy` is stored as the repository's default verification rule.
+It is not a statement about how all development should be done.
 
 - "테스트는 있으면 돌리고, 없으면 빌드라도" -> `required` with command notes describing fallback behavior
 - "항상 테스트/린트 확인" -> `required`
@@ -277,10 +295,10 @@ These should feel like confirmation, not configuration.
 
 - language: "README가 한국어라 기본 협업 언어도 한국어로 보면 될까?"
 - project type: "지금 구조를 보면 이 프로젝트는 웹앱으로 보면 될까?"
-- definition of done: "보통은 테스트/린트까지 통과하면 완료로 볼까? 잘 모르겠으면 내가 이걸 기본값으로 둘게."
-- approval policy: "큰 변경은 먼저 확인받는 쪽이 좋아, 아니면 안전한 수정은 바로 진행해도 될까? 애매하면 우선 위험한 변경만 확인받는 기본값으로 둘 수 있어."
-- verification policy: "기본 검증은 `npm test`와 `npm run lint` 기준으로 잡을까?"
-- constraints: "코드만 보고는 안 보이는 제약이 있으면 한두 가지만 알려줘. 잘 모르겠으면 지금은 비워두고 나중에 보강해도 돼."
+- definition of done: "이 저장소에서 기본 완료 기준은 어떤 로컬 체크로 둘까? 잘 모르겠으면 테스트/린트 같은 저장소 기본 검증을 completion gate로 먼저 둘게."
+- approval policy: "이 저장소에서 위험하거나 민감한 변경은 먼저 확인받을까, 아니면 안전한 수정은 바로 진행해도 될까? 애매하면 위험한 변경만 먼저 확인받는 로컬 기본값으로 둘 수 있어."
+- verification policy: "이 저장소의 기본 검증 규칙은 `npm test`와 `npm run lint` 기준으로 잡을까?"
+- constraints: "코드만 보고는 안 보이는 저장소 로컬 제약이 있으면 한두 가지만 알려줘. 잘 모르겠으면 지금은 비워두고 나중에 보강해도 돼."
 
 ## Minimal security interview items
 
@@ -322,9 +340,9 @@ These should feel like setup decisions for a new project, not abstract policy fo
 - stack: "프론트/백엔드 기준으로 어떤 기술스택으로 시작할까? 아직 정해진 게 없으면 내가 무난한 시작 스택을 제안할게."
 - runtime: "런타임은 Node, Bun, Python 중 어떤 쪽으로 갈까? 잘 모르겠으면 가장 무난한 기본값부터 잡아도 돼."
 - package manager: "패키지 매니저는 npm, pnpm, yarn 중 뭐로 갈까? 아직 취향이 없으면 내가 무난한 기본값을 먼저 제안할게."
-- definition of done: "초기 기준으로는 테스트/린트까지 통과하면 완료로 볼까? 타입이 있는 스택이면 `typecheck`도 기본 검증에 넣을게. 잘 모르겠으면 이걸 기본값으로 둘게."
-- approval policy: "큰 구조 변경은 먼저 물어보고 갈까, 아니면 안전한 건 바로 진행해도 될까? 잘 모르겠으면 위험한 변경만 먼저 확인받는 쪽으로 둘 수 있어."
-- commands: "기본 명령은 dev / build / test / lint / typecheck 정도로 잡을 텐데, 원하는 형태가 있으면 말해줘. 아직 없으면 내가 일반적인 형태로 먼저 잡을게."
+- definition of done: "초기 기준으로는 이 저장소의 기본 완료 체크를 테스트/린트까지로 둘까? 타입이 있는 스택이면 `typecheck`도 로컬 completion gate에 넣을게. 잘 모르겠으면 이걸 기본값으로 둘게."
+- approval policy: "이 저장소에서 큰 구조 변경이나 민감 변경은 먼저 물어보고 갈까, 아니면 안전한 수정은 바로 진행해도 될까? 잘 모르겠으면 위험한 변경만 먼저 확인받는 로컬 기본값으로 둘 수 있어."
+- commands: "이 저장소의 기본 명령은 dev / build / test / lint / typecheck 정도로 잡을 텐데, 원하는 형태가 있으면 말해줘. 아직 없으면 내가 일반적인 로컬 기본값으로 먼저 잡을게."
 
 ## Three-level template matrix
 
@@ -411,6 +429,13 @@ Do not store these as permanent contract state:
 - one-off branch names
 - framework-specific orchestration preferences
 - guesses that were never confirmed
+- TDD preferences or broader development methodology choices
+- branch strategy defaults that are not repo-local guardrails
+- code review loop structure
+- brainstorming or planning procedures
+- sub-agent usage rules
+
+Do not ask about TDD, branch strategy, code review loops, or sub-agent usage as durable contract state unless a repository-local rule directly depends on them and can be expressed as a concrete local guardrail.
 
 ## Fixture expectations for interview-heavy scenarios
 

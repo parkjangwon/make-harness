@@ -179,6 +179,41 @@ def test_blank_project_protocol_explicitly_captures_typecheck_and_build_defaults
     assert "dev / build / test / lint / typecheck" in protocol
 
 
+def test_readme_and_positioning_describe_make_harness_as_local_contract_layer_not_methodology():
+    readme = (ROOT / "README.md").read_text()
+    positioning = (ROOT / "docs" / "positioning.md").read_text()
+    coexistence = (ROOT / "docs" / "coexistence.md").read_text()
+
+    assert "project-local harness" in readme
+    assert "durable contract bootstrap + maintenance" in readme
+    assert "not a development methodology" in readme
+    assert "not an execution framework" in readme
+    assert "not an orchestration layer" in readme
+    assert "framework-agnostic local rule layer" in positioning
+    assert "does not replace stronger workflow or methodology frameworks" in coexistence
+    assert "superpowers" in coexistence
+
+
+def test_protocol_redefines_boundary_fields_as_repo_local_rules_not_general_methodology():
+    protocol = (ROOT / "references" / "interview-protocol.md").read_text()
+
+    assert "`definition_of_done` is stored as a repo-local completion expectation" in protocol
+    assert "`verification_policy` is stored as the repository's default verification rule" in protocol
+    assert "`approval_policy` is stored as the repository's confirmation rule for risky or sensitive changes" in protocol
+    assert "`change_posture` is only a narrow local default for change scope" in protocol
+    assert "Do not ask about TDD, branch strategy, code review loops, or sub-agent usage as durable contract state" in protocol
+
+
+def test_examples_and_fixtures_describe_local_contract_collection_not_methodology_capture():
+    fixtures = (ROOT / "assets" / "fixtures" / "README.md").read_text()
+    examples = (ROOT / "assets" / "examples" / "README.md").read_text()
+
+    assert "local contract" in fixtures
+    assert "not to encode a development methodology" in fixtures
+    assert "local project rules" in examples
+    assert "not workflow prescriptions" in examples
+
+
 def test_readme_documents_audit_success_and_failure_examples():
     readme = (ROOT / "README.md").read_text()
 

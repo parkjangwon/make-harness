@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Deterministic interview planning helpers for make-harness."""
+"""Deterministic interview planning helpers for make-harness.
+
+The planner only sequences questions for repository-local durable contract fields.
+It must not expand the harness into a methodology, execution framework, or workflow engine.
+"""
 
 from __future__ import annotations
 

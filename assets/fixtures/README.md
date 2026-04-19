@@ -6,6 +6,9 @@ Fixtures model three things separately:
 - expected durable contract effects (when needed) in `expected-contract.json`
 - expected volatile runtime state in `expected-runtime.json`
 
+These fixtures exist to pin local contract collection, branching, and repair behavior.
+They exist not to encode a development methodology, but to keep contract behavior mechanically testable.
+
 Current fixture coverage includes:
 
 - empty bootstrap
@@ -28,4 +31,4 @@ For interview-heavy scenarios, `fixture.json` can now pin deterministic planner 
 
 `python tools/validate-fixtures.py` cross-checks those expectations against `tools/interview_planner.py`, so repo-first vs setup-discovery behavior is mechanically enforced instead of remaining prose-only.
 
-The goal is not to simulate every repository, but to keep the contract model, interview branching, and repair rules concrete enough to audit.
+The goal is not to simulate every repository, but to keep the local contract model, interview branching, and repair rules concrete enough to audit.

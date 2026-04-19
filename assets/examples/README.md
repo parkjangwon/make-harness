@@ -4,13 +4,14 @@ These examples show what a healthy harness can look like after bootstrap, update
 
 They are not templates to copy verbatim.
 They are reference outputs that make the contract shape easier to understand.
+They should be read as examples of local project rules, not workflow prescriptions.
 
 ## How to use them
 
 - Compare the example against the shared contract schema.
 - Check that entry files stay thin.
 - Check that canonical sources carry the real contract.
-- Use examples to judge whether a generated harness feels simple, stable, and consistent.
+- Use examples to judge whether a generated harness feels simple, stable, and consistent as a local project rule layer.
 
 ## Example set
 

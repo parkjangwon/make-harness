@@ -32,3 +32,5 @@ The protocol now includes:
 - treat repo-derived guesses as temporary inference until confirmed
 - if the interview must resume, continue from the recorded `interview_step`
 - if a new answer creates a contradiction with durable state, explain the conflict briefly and confirm before overwriting
+- ask only for repository-local defaults, guardrails, commands, and constraints
+- do not ask the user to choose a general development philosophy, methodology, branch strategy, code review loop, brainstorming process, or sub-agent workflow as durable harness state

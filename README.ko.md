@@ -1,10 +1,10 @@
 # make-harness
 
-<img width="1000" height="550" alt="make-harness" src="https://github.com/user-attachments/assets/e68f3bdd-d549-4158-9f17-5a3111f3c850" />
+`make-harness`는 각 저장소에 프로젝트 로컬 하네스를 설치하고 유지하는 도구다.
 
-`make-harness`는 각 리포지토리에 프로젝트 로컬 AI 하네스를 설치하고 유지하는 스킬이다.
+하나의 canonical durable contract에 저장소별 규칙, 명령, 제약, guardrail을 모으고, 그 계약에서 `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` 같은 thin projection을 다시 만들고, 하네스가 healthy한지 점검한다.
 
-하나의 durable contract를 기준으로 프로젝트 규칙을 잡고, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`를 thin projection으로 생성·동기화하며, 하네스가 깨지지 않았는지도 검사한다.
+`make-harness`는 개발론 프레임워크가 아니고, 실행 프레임워크도 아니며, orchestration 레이어도 아니다. 더 강한 workflow/methodology 레이어와 조합되는 framework-agnostic local rule layer로 남는 것이 목적이다.
 
 영문 버전: [README.md](README.md)
 
@@ -116,6 +116,17 @@ npx skills add parkjangwon/make-harness --list
 - `environment`
 
 `rule_strengths`는 계약의 최소 enforcement layer야. 각 durable rule이 advisory / guided / enforced 중 어느 강도로 다뤄져야 하는지 표현하되, 하네스를 무거운 실행 프레임워크로 키우지는 않는다.
+
+## 경계선 필드: 방법론이 아니라 저장소 로컬 규칙으로 다뤄야 한다
+
+몇몇 필드는 이름만 보면 범위가 넓어 보일 수 있지만, `make-harness` 안에서는 반드시 저장소 로컬 의미로만 다뤄야 한다.
+
+- `definition_of_done` = 이 저장소의 기본 완료 기준 또는 local completion gate
+- `verification_policy` = 이 저장소의 기본 검증 규칙
+- `approval_policy` = 위험하거나 민감한 변경에 대한 이 저장소의 확인 규칙
+- `change_posture` = 이 저장소에서 변경 범위를 어느 정도 보수적으로 볼지에 대한 좁은 기본값
+
+반대로 planning, TDD, branch strategy, code review loop, brainstorming, sub-agent coordination 같은 것은 더 강한 상위 workflow 레이어에서 다룰 일이지, durable harness contract에 강하게 저장할 일이 아니다.
 
 ## 동작 모드
 
