@@ -76,18 +76,18 @@ VALID_BOOTSTRAP_STATUSES = {'pending_interview', 'interview_in_progress', 'confi
 VALID_SYNC_STATUSES = {'healthy', 'drifted', 'unvalidated', 'unknown'}
 VALID_LANGUAGE_CONFIDENCE = {'low', 'medium', 'high'}
 MAX_ENTRY_NON_EMPTY_LINES = 18
-PROJECT_HARNESS_REQUIRED_SECTIONS = [
-    "## Status",
-    "## Canonical model",
-    "## Agent defaults",
-    "## Durable contract fields",
-    "## Runtime state fields",
-    "## State invariants",
-    "## Entry file principles",
-    "## Repair order",
-    "## Pre-completion checklist",
-    "## Change history",
-]
+PROJECT_HARNESS_REQUIRED_SECTION_ALIASES = {
+    "status": ["## Status", "## 상태"],
+    "canonical_model": ["## Canonical model", "## 기준 모델"],
+    "agent_defaults": ["## Agent defaults", "## 에이전트 기본 원칙"],
+    "durable_contract_fields": ["## Durable contract fields", "## 지속 계약 필드"],
+    "runtime_state_fields": ["## Runtime state fields", "## 런타임 상태 필드"],
+    "state_invariants": ["## State invariants", "## 상태 불변식"],
+    "entry_file_principles": ["## Entry file principles", "## 진입 파일 원칙"],
+    "repair_order": ["## Repair order", "## 복구 순서"],
+    "pre_completion_checklist": ["## Pre-completion checklist", "## 완료 전 체크리스트"],
+    "change_history": ["## Change history", "## 변경 이력"],
+}
 
 
 def _load_json(path: Path, errors: list[str]) -> dict | None:
@@ -111,9 +111,9 @@ def _check_entry_files(root: Path, errors: list[str]) -> None:
 
 def _check_project_harness(root: Path, errors: list[str]) -> None:
     text = (root / 'PROJECT_HARNESS.md').read_text()
-    for section in PROJECT_HARNESS_REQUIRED_SECTIONS:
-        if section not in text:
-            errors.append(f'PROJECT_HARNESS.md missing required section: {section}')
+    for section_name, aliases in PROJECT_HARNESS_REQUIRED_SECTION_ALIASES.items():
+        if not any(alias in text for alias in aliases):
+            errors.append(f'PROJECT_HARNESS.md missing required section: {aliases[0]}')
     if 'harness-contract.json' not in text or 'harness-runtime.json' not in text:
         errors.append('PROJECT_HARNESS.md must describe the contract/runtime split explicitly')
     if '| Date | Change | Target | Reason |' not in text:

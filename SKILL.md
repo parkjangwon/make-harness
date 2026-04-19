@@ -53,6 +53,7 @@ Read `harness-contract.json` and `harness-runtime.json` if they exist.
 - If no harness exists, bootstrap it.
 - If the harness exists and is healthy, enter update mode.
 - If the harness exists but is drifted or broken, repair first and only continue with update if needed.
+- When a healthy harness already exists, rewrite `harness-runtime.json` with `run_mode: update`, preserve `bootstrap_status: configured` and `sync_status: healthy`, refresh timestamps if needed, regenerate projections, and then re-run the completion gate before declaring that no further work is required.
 - If `bootstrap_status` is `pending_interview`, the harness is not configured yet.
 - If `bootstrap_status` is `interview_in_progress`, resume from recorded runtime state.
 
@@ -66,9 +67,12 @@ Read `harness-contract.json` and `harness-runtime.json` if they exist.
 - Prefer confirmation questions over open-ended questions whenever the repository already provides a likely answer.
 - Prefer inspecting the repository over asking for metadata that is usually inferable.
 - Use detect-first language selection:
-  - look for README language, existing root docs, comments, and file naming patterns
+  - look for README language, existing root docs, comments, file naming patterns, and the current user message language
   - if one language is strongly implied, start there with a confirmation tone
-  - if signals are weak or mixed, ask the language question in plain English
+  - do not prepend English mode/status framing before the first Korean confirmation question when Korean confidence is high
+  - if the current user request is already in Korean, keep the preface and the first question in Korean even for a blank project with no repo signals yet
+  - if you need to explain run classification first, do it in the same confirmed language rather than switching to an English preface
+  - only fall back to plain-English language questions when repo signals and current conversation language are both weak or mixed
 - Respect the interview question budget from the protocol:
   - target 5 or fewer explicit questions for common repos
   - treat 8 as a soft ceiling that requires justification

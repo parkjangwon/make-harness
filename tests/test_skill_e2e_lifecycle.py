@@ -119,3 +119,37 @@ def test_materialized_repo_with_entry_drift_is_detected_by_real_audit(tmp_path):
     errors = audit.audit_repository(repo)
 
     assert any("missing canonical pointer line" in error for error in errors)
+
+
+def test_generated_entry_files_include_concise_project_specific_summary(tmp_path):
+    apply = load_module("apply_harness", ROOT / "tools" / "apply-harness.py")
+    contract_overlay = load_json(FIXTURES / "refresh-configured-healthy" / "expected-contract.json")
+    runtime_overlay = load_json(FIXTURES / "refresh-configured-healthy" / "expected-runtime.json")
+    runtime_overlay.pop("phase", None)
+
+    repo = materialize_repo(tmp_path, contract_overlay=contract_overlay, runtime_overlay=runtime_overlay)
+    apply.apply_harness(repo)
+
+    agents_text = (repo / "AGENTS.md").read_text()
+
+    assert "Current defaults:" in agents_text or "현재 기본값 요약:" in agents_text
+    assert "communication_language" not in agents_text
+    assert "pnpm test" in agents_text
+    assert "risky changes" in agents_text or "위험한 변경" in agents_text
+
+
+def test_generated_project_harness_uses_korean_headings_when_contract_language_is_korean(tmp_path):
+    apply = load_module("apply_harness", ROOT / "tools" / "apply-harness.py")
+    contract_overlay = load_json(FIXTURES / "refresh-configured-healthy" / "expected-contract.json")
+    runtime_overlay = load_json(FIXTURES / "refresh-configured-healthy" / "expected-runtime.json")
+    runtime_overlay.pop("phase", None)
+
+    repo = materialize_repo(tmp_path, contract_overlay=contract_overlay, runtime_overlay=runtime_overlay)
+    apply.apply_harness(repo)
+
+    harness_text = (repo / "PROJECT_HARNESS.md").read_text()
+
+    assert "# 프로젝트 하네스" in harness_text
+    assert "## 상태" in harness_text
+    assert "## 지속 계약 값" in harness_text
+    assert "## 변경 이력" in harness_text

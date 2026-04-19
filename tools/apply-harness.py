@@ -88,7 +88,45 @@ def render_dict(mapping: dict, indent: str = "  ") -> list[str]:
     return lines
 
 
-def render_entry_file(title: str) -> str:
+def is_korean_contract(contract: dict) -> bool:
+    return str(contract.get("communication_language", "")).strip().lower() == "ko"
+
+
+def _verification_summary(contract: dict) -> str:
+    commands = contract.get("project_commands") or {}
+    ordered_keys = [key for key in ("test", "lint", "typecheck", "build") if commands.get(key)]
+    if not ordered_keys:
+        return "not set"
+    return ", ".join(str(commands[key]) for key in ordered_keys)
+
+
+def _approval_summary(contract: dict) -> str:
+    approval_policy = contract.get("approval_policy")
+    if approval_policy == "explicit_for_risky_changes":
+        return "위험한 변경은 먼저 확인, 안전한 수정은 바로 진행"
+    if approval_policy == "implicit_for_safe_changes":
+        return "안전한 수정은 바로 진행, 위험한 변경은 별도 확인"
+    if approval_policy == "explicit_for_all_changes":
+        return "모든 변경 전에 먼저 확인"
+    return render_scalar(approval_policy)
+
+
+def render_entry_file(title: str, contract: dict) -> str:
+    korean = is_korean_contract(contract)
+    if korean:
+        summary_heading = "현재 기본값 요약:"
+        summary_lines = [
+            f"- 언어: {render_scalar(contract.get('communication_language'))}",
+            f"- 기본 검증: {_verification_summary(contract)}",
+            f"- 승인 규칙: {_approval_summary(contract)}",
+        ]
+    else:
+        summary_heading = "Current defaults:"
+        summary_lines = [
+            f"- language: {render_scalar(contract.get('communication_language'))}",
+            f"- verification: {_verification_summary(contract)}",
+            f"- approval: {render_scalar(contract.get('approval_policy'))}",
+        ]
     return "\n".join(
         [
             title,
@@ -96,6 +134,9 @@ def render_entry_file(title: str) -> str:
             "Read `PROJECT_HARNESS.md` first.",
             "Read `harness-contract.json` for durable defaults.",
             "Read `harness-runtime.json` only for current interview/runtime state.",
+            "",
+            summary_heading,
+            *summary_lines,
             "",
             "- Treat `PROJECT_HARNESS.md` and `harness-contract.json` as canonical.",
             "- If `bootstrap_status` is not `configured`, inspect first and continue the setup interview.",
@@ -107,10 +148,24 @@ def render_entry_file(title: str) -> str:
 
 
 def render_project_harness(contract: dict, runtime: dict) -> str:
+    korean = is_korean_contract(contract)
+    title = "# 프로젝트 하네스" if korean else "# make-harness Project Harness"
+    section_status = "## 상태" if korean else "## Status"
+    section_canonical = "## 기준 모델" if korean else "## Canonical model"
+    section_defaults = "## 에이전트 기본 원칙" if korean else "## Agent defaults"
+    section_fields = "## 지속 계약 필드" if korean else "## Durable contract fields"
+    section_values = "## 지속 계약 값" if korean else "## Durable contract values"
+    section_runtime = "## 런타임 상태 필드" if korean else "## Runtime state fields"
+    section_invariants = "## 상태 불변식" if korean else "## State invariants"
+    section_entry = "## 진입 파일 원칙" if korean else "## Entry file principles"
+    section_repair = "## 복구 순서" if korean else "## Repair order"
+    section_checklist = "## 완료 전 체크리스트" if korean else "## Pre-completion checklist"
+    section_history = "## 변경 이력" if korean else "## Change history"
+
     lines = [
-        "# make-harness Project Harness",
+        title,
         "",
-        "## Status",
+        section_status,
         "",
         f"- run_mode: {render_scalar(runtime.get('run_mode'))}",
         f"- bootstrap_status: {render_scalar(runtime.get('bootstrap_status'))}",
@@ -119,14 +174,14 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
         "- Runtime interview/audit state lives in `harness-runtime.json`.",
         "- Treat `/make-harness` as a single entry command: bootstrap when no harness exists, update when a healthy harness exists, and repair when drift or breakage is detected first.",
         "",
-        "## Canonical model",
+        section_canonical,
         "",
         "- `PROJECT_HARNESS.md`: human-readable durable contract",
         "- `harness-contract.json`: machine-readable durable contract",
         "- `harness-runtime.json`: volatile interview, audit, and sync state",
         "- `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`: thin projections only",
         "",
-        "## Agent defaults",
+        section_defaults,
         "",
         "- Inspect the repository before asking for metadata that can be inferred.",
         "- Confirm durable project defaults, project-local security guardrails, and execution guardrails only.",
@@ -134,7 +189,7 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
         "- Use detect-first language selection: infer likely collaboration language from repo signals, then confirm if needed.",
         "- Ask one interview question at a time and reflect runtime progress into `harness-runtime.json`.",
         "",
-        "## Durable contract fields",
+        section_fields,
         "",
         "These fields must stay synchronized across `PROJECT_HARNESS.md` and `harness-contract.json`:",
         "",
@@ -143,7 +198,7 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
     lines.extend(
         [
             "",
-            "## Durable contract values",
+            section_values,
             "",
         ]
     )
@@ -160,7 +215,7 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
     lines.extend(
         [
             "",
-            "## Runtime state fields",
+            section_runtime,
             "",
             "`harness-runtime.json` tracks only volatile state such as:",
             "",
@@ -178,7 +233,7 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
     lines.extend(
         [
             "",
-            "## State invariants",
+            section_invariants,
             "",
             "- `configured` implies `pending_fields` is empty.",
             "- `configured` implies `interview_step` is `complete`.",
@@ -186,13 +241,13 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
             "- `validated_shared_fields` may contain only shared contract fields.",
             "- `last_validated_at` requires an explicit `sync_status` of `healthy` or `drifted`.",
             "",
-            "## Entry file principles",
+            section_entry,
             "",
             "- Keep entry files short enough to stay obviously non-canonical.",
             "- Entry files point back to the canonical durable contract.",
             "- Entry files may mention runtime-state recovery, but must not duplicate the full policy block.",
             "",
-            "## Repair order",
+            section_repair,
             "",
             "1. `harness-contract.json`",
             "2. `harness-runtime.json`",
@@ -203,7 +258,7 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
             "",
             "Repair durable contract first, then volatile runtime state, then projections.",
             "",
-            "## Pre-completion checklist",
+            section_checklist,
             "",
             "- All managed files exist.",
             "- `PROJECT_HARNESS.md` and `harness-contract.json` agree on shared contract fields.",
@@ -212,7 +267,7 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
             "- `validated_shared_fields` matches what was actually checked.",
             "- Change history is updated when durable defaults change.",
             "",
-            "## Change history",
+            section_history,
             "",
             "| Date | Change | Target | Reason |",
             "|------|--------|--------|--------|",
@@ -234,7 +289,7 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
 
 
 def build_projection_files(contract: dict, runtime: dict) -> dict[str, str]:
-    projections = {name: render_entry_file(title) for name, title in ENTRY_TITLES.items()}
+    projections = {name: render_entry_file(title, contract) for name, title in ENTRY_TITLES.items()}
     projections["PROJECT_HARNESS.md"] = render_project_harness(contract, runtime)
     return projections
 

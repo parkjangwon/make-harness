@@ -83,5 +83,6 @@ def test_generator_repairs_drifted_projection_files_back_to_contract(tmp_path):
     generator.apply_harness(repo)
 
     assert "Read `PROJECT_HARNESS.md` first." in (repo / "AGENTS.md").read_text()
-    assert "## Durable contract values" in (repo / "PROJECT_HARNESS.md").read_text()
+    harness_text = (repo / "PROJECT_HARNESS.md").read_text()
+    assert "## Durable contract values" in harness_text or "## 지속 계약 값" in harness_text
     assert audit.audit_repository(repo) == []

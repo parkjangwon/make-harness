@@ -156,6 +156,29 @@ def test_single_entry_docs_prefer_update_when_harness_already_exists():
     assert "healthy harness -> update" in readme
 
 
+def test_skill_requires_runtime_state_to_move_to_update_on_healthy_rerun():
+    skill = (ROOT / "SKILL.md").read_text()
+
+    assert "rewrite `harness-runtime.json` with `run_mode: update`" in skill
+    assert "healthy harness already exists" in skill
+
+
+def test_interview_protocol_forbids_english_preface_when_korean_confidence_is_high():
+    protocol = (ROOT / "references" / "interview-protocol.md").read_text()
+
+    assert "Do not prepend English mode/status framing before the first Korean confirmation question" in protocol
+    assert "If the current user message is already in Korean, keep the preface and the first question in Korean even when the repository itself is blank" in protocol
+    assert "README가 한국어라 기본 협업 언어도 한국어로 보면 될까?" in protocol
+
+
+def test_blank_project_protocol_explicitly_captures_typecheck_and_build_defaults():
+    protocol = (ROOT / "references" / "interview-protocol.md").read_text()
+
+    assert "typecheck" in protocol
+    assert "build" in protocol
+    assert "dev / build / test / lint / typecheck" in protocol
+
+
 def test_readme_documents_audit_success_and_failure_examples():
     readme = (ROOT / "README.md").read_text()
 

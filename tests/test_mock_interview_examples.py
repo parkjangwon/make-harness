@@ -32,6 +32,8 @@ def test_senior_mock_interview_example_exists_and_shows_precision_controls():
     assert "approval" in text
     assert "definition of done" in text
     assert "pnpm" in text or "npm" in text
+    assert "This is a one-time setup" not in text
+    assert "이건 one-time setup" in text or "이건 일회성 초기 설정" in text
 
 
 def test_mock_examples_show_same_skill_with_different_depth_not_different_philosophy():
