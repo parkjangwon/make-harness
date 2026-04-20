@@ -141,6 +141,7 @@ def render_entry_file(title: str, contract: dict) -> str:
             "- Treat `PROJECT_HARNESS.md` and `harness-contract.json` as canonical.",
             "- If `bootstrap_status` is not `configured`, inspect first and continue the setup interview.",
             "- Detect likely collaboration language from repo signals first; confirm it if unclear.",
+            "- Prefer independent reviewer/evaluator checks for artifact quality; keep only the criteria and commands in the canonical contract.",
             "- Keep this file thin and preserve any user-authored content outside the harness-managed block.",
             "",
         ]
@@ -188,6 +189,7 @@ def render_project_harness(contract: dict, runtime: dict) -> str:
         "- Do not store framework-level tactics as permanent harness state.",
         "- Use detect-first language selection: infer likely collaboration language from repo signals, then confirm if needed.",
         "- Ask one interview question at a time and reflect runtime progress into `harness-runtime.json`.",
+        "- Prefer independent review for artifact quality; keep the review criteria and verification commands in the contract, not the workflow topology.",
         "",
         section_fields,
         "",

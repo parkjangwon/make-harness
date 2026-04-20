@@ -41,6 +41,27 @@ Runtime state kept separate:
 - detected language signal
 - sync status
 
+## Multi-agent pairing example
+
+For this same repository, a stronger workflow above `make-harness` might look like:
+
+1. a planner decides that the change touches the login page and notification settings
+2. a generator implements the code and UI change
+3. an independent evaluator runs the repository checks and reviews the result against the repo's quality bar
+
+What `make-harness` contributes to that loop is the shared local contract:
+
+- `definition_of_done`: the change must pass review and repository verification before it is treated as complete
+- `verification_policy`: required
+- `project_commands`: `pnpm test`, `pnpm lint`, `pnpm typecheck`, `pnpm playwright test`
+- local rubric hints: preserve existing admin UI patterns, avoid breaking mobile layout, keep copy consistent with legacy screens
+
+What `make-harness` does not store:
+
+- which agent framework runs the planner
+- how many review loops the evaluator should request
+- a permanent planner / generator / evaluator topology
+
 ## What did not change
 
 `make-harness` did not:
@@ -62,3 +83,4 @@ Success looks like:
 - fewer drifted root files
 - stable local defaults across repeated sessions
 - no confusion about which file is durable vs runtime-only
+- cleaner handoff between planner, generator, and independent reviewer because they all read the same repository-local expectations

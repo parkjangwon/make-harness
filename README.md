@@ -70,6 +70,32 @@ A good pairing looks like this:
 
 This is usually a better fit than trying to force one global workflow onto every repository.
 
+In a practical multi-agent flow, a common split looks like this:
+
+- a planner decomposes the work and chooses the execution path
+- a generator or executor produces the code, UI, or migration changes
+- an independent evaluator or reviewer checks the result against explicit quality criteria instead of relying on self-evaluation alone
+- `make-harness` keeps the shared local contract those agents read: definition of done, verification commands, approval boundaries, constraints, and lightweight rubric hints
+
+That last point matters: `make-harness` should preserve the repository's quality expectations, but it should not become the runtime that schedules planner / generator / evaluator loops.
+
+## Independent evaluator-friendly by design
+
+`make-harness` assumes artifact quality is stronger when the same agent is not the only judge of its own work.
+
+For that reason, the durable contract is a good place to store:
+
+- explicit `definition_of_done` language
+- `verification_policy` defaults
+- `project_commands` for tests, lint, typecheck, e2e, or visual review
+- short rubric hints that tell a reviewer what "good" means in this repository
+
+But it is not the place to store:
+
+- how many review iterations a workflow should run
+- which orchestration framework should schedule the loop
+- permanent planner / generator / evaluator topology
+
 ## What happens when you run `/make-harness`
 
 Typical flow:

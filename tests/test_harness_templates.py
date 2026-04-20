@@ -29,6 +29,7 @@ def test_entry_files_stay_thin_and_point_to_new_sources():
         assert "Read `PROJECT_HARNESS.md` first." in text
         assert "Read `harness-contract.json` for durable defaults." in text
         assert "Read `harness-runtime.json` only for current interview/runtime state." in text
+        assert "Prefer independent reviewer/evaluator checks for artifact quality" in text
         assert "Bootstrap rules:" not in text
         non_empty_lines = [line for line in text.splitlines() if line.strip()]
         assert len(non_empty_lines) <= 18, f"{name} is too thick: {len(non_empty_lines)} lines"
@@ -192,6 +193,9 @@ def test_readme_and_positioning_describe_make_harness_as_local_contract_layer_no
     assert "framework-agnostic local rule layer" in positioning
     assert "does not replace stronger workflow or methodology frameworks" in coexistence
     assert "superpowers" in coexistence
+    assert "planner: decomposes the task" in coexistence
+    assert "evaluator / reviewer" in coexistence
+    assert "project commands for test / lint / typecheck / e2e / visual review" in coexistence
 
 
 def test_readmes_document_good_fit_environments_and_stronger_workflow_pairings():
@@ -202,10 +206,16 @@ def test_readmes_document_good_fit_environments_and_stronger_workflow_pairings()
     assert "solution or service companies" in readme
     assert "ecc, superpowers" in readme
     assert "repository-local contract" in readme
+    assert "a planner decomposes the work" in readme
+    assert "independent evaluator or reviewer" in readme
+    assert "short rubric hints" in readme
     assert "## 특히 잘 맞는 환경" in readme_ko
     assert "솔루션/서비스 개발 회사" in readme_ko
     assert "ecc, superpowers" in readme_ko
     assert "저장소 로컬 계약" in readme_ko
+    assert "planner가 작업을 나누고 실행 방향을 정한다" in readme_ko
+    assert "independent evaluator 또는 reviewer" in readme_ko
+    assert "짧은 rubric 힌트" in readme_ko
 
 
 def test_protocol_redefines_boundary_fields_as_repo_local_rules_not_general_methodology():
@@ -231,11 +241,15 @@ def test_interview_docs_describe_answer_mode_adaptation_not_user_persona_classif
 def test_examples_and_fixtures_describe_local_contract_collection_not_methodology_capture():
     fixtures = (ROOT / "assets" / "fixtures" / "README.md").read_text()
     examples = (ROOT / "assets" / "examples" / "README.md").read_text()
+    rollout = (ROOT / "assets" / "examples" / "legacy-webapp-rollout.md").read_text()
 
     assert "local contract" in fixtures
     assert "not to encode a development methodology" in fixtures
     assert "local project rules" in examples
     assert "not workflow prescriptions" in examples
+    assert "planner / generator / evaluator handoff" in examples
+    assert "independent evaluator" in rollout
+    assert "What `make-harness` does not store" in rollout
 
 
 def test_korean_readme_tracks_new_positioning_sections_and_koreanized_headings():

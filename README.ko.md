@@ -68,6 +68,32 @@
 
 이 방식이 모든 리포에 하나의 전역 workflow를 억지로 강제하는 것보다 보통 더 현실적입니다.
 
+실제 멀티 에이전트 흐름으로 풀면 보통 이런 역할 분리가 잘 맞습니다.
+
+- planner가 작업을 나누고 실행 방향을 정한다
+- generator 또는 executor가 코드, UI, 마이그레이션 같은 실제 산출물을 만든다
+- independent evaluator 또는 reviewer가 self-evaluation에만 기대지 않고 명시적인 품질 기준으로 결과물을 검토한다
+- `make-harness`는 이들이 함께 읽는 저장소 로컬 계약을 맡는다: definition of done, verification command, approval boundary, constraint, 간단한 rubric 힌트
+
+중요한 점은 마지막 줄입니다. `make-harness`는 품질 기대치와 로컬 규칙을 보존하지만, planner / generator / evaluator 루프 자체를 스케줄링하는 실행 엔진이 되지는 않습니다.
+
+## 독립 evaluator를 붙이기 좋은 구조
+
+`make-harness`는 결과물을 만든 에이전트가 자기 결과를 혼자만 평가하는 구조보다, 독립 reviewer/evaluator가 따로 검증하는 구조가 더 안정적이라고 봅니다.
+
+그래서 durable contract에는 아래 같은 것을 담기 좋습니다.
+
+- 명시적인 `definition_of_done`
+- 기본 `verification_policy`
+- test / lint / typecheck / e2e / visual review용 `project_commands`
+- 이 저장소에서 무엇을 좋다고 볼지 알려주는 짧은 rubric 힌트
+
+반대로 아래 같은 것은 durable contract에 넣을 일이 아닙니다.
+
+- review loop를 몇 번 돌릴지
+- 어떤 orchestration framework가 루프를 스케줄할지
+- planner / generator / evaluator의 고정 토폴로지
+
 ## `/make-harness`를 실행하면 무슨 일이 일어나나
 
 전형적인 흐름은 이렇습니다.

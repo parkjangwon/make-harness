@@ -21,6 +21,7 @@
 - Do not store framework-level tactics as permanent harness state.
 - Use detect-first language selection: infer likely collaboration language from repo signals, then confirm if needed.
 - Ask one interview question at a time and reflect runtime progress into `harness-runtime.json`.
+- Prefer independent review for artifact quality; keep the review criteria and verification commands in the contract, not the workflow topology.
 
 ## Durable contract fields
 
